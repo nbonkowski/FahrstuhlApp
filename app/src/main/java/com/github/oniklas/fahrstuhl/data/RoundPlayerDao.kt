@@ -10,7 +10,7 @@ interface RoundPlayerDao {
     fun getAllRoundPlayers(): Flow<List<RoundPlayer>>
 
     @Query("SELECT * FROM ROUNDPLAYER where game = :gameid")
-    fun getRoundPlayersFromGameId(gameid : UUID)
+    fun getRoundPlayersFromGameId(gameid : UUID):Flow<List<RoundPlayer>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRoundPlayer(roundPlayer: RoundPlayer)
