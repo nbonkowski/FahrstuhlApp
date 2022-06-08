@@ -9,11 +9,16 @@ import java.util.*
 @Entity(
     foreignKeys = [ForeignKey(entity = Players::class,
     parentColumns = arrayOf("id"),
-    childColumns = arrayOf("firstPlayer"))]
+    childColumns = arrayOf("firstPlayer")),
+        ForeignKey(entity = Games::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("game"))]
 )
 data class Rounds(
     @PrimaryKey
     val id: UUID = UUID.randomUUID(),
+    @ColumnInfo
+    val game:UUID,
     @ColumnInfo
     val firstPlayer: UUID,
 
