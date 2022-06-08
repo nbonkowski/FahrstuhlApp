@@ -4,6 +4,7 @@
     package="com.github.oniklas.fahrstuhl">
 
     <application
+        android:name=".FahrstuhlApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
