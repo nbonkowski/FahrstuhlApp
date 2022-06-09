@@ -1,7 +1,6 @@
 package com.github.oniklas.fahrstuhl.screens.home
 
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,14 +16,10 @@ import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
 
 @Composable
 fun HomeScreen(navController: NavHostController, toContinue : Boolean = false, firstTimeOpened: Boolean) {
-
-//    if(firstTimeOpened){
-//        navController.navigate(FahrstuhlScreens.TutorialScreen.name)
-//    }
-
     Column(modifier = Modifier
         .fillMaxSize()
         .padding(20.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally){
+
         Button(onClick = {navController.navigate(FahrstuhlScreens.LobbyScreen.name)}, shape = RoundedCornerShape(
             CornerSize(10.dp)
         )
@@ -44,4 +39,5 @@ fun HomeScreen(navController: NavHostController, toContinue : Boolean = false, f
                 textAlign = TextAlign.Center)
         }
     }
+
 }

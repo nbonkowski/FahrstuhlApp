@@ -1,4 +1,15 @@
 <resources>
     <string name="app_name">Fahrstuhl</string>
-    <string name="rules">Fahrstuhl is played...</string>
+    <string name="rules">
+        Um Fahrstuhl zu spielen, werden ein Kartendeck und mindestens 2 Mitspieler benötigt.
+        \n
+        \nJede Runde wird die angezeigte Anzahl Karten an jeden Spieler ausgeteilt.
+        \nWichtig Joker rausnehmen.
+        \n
+        \nJetzt schaut sich jeder seine Karten an und sagt, wie viele Stiche er diese runde haben wird. Dies wird im passenden "Prediktion" Feld notiert. Dann wird gespielt und die Stiche im "Stiche" / "Trick" Feld notiert.
+        \n
+        \nHat man die Stiche richtig hervor gesagt, bekommt man für jeden Stich 5 Punkte. Liegt man falsch, bekommt man für jeden falschen -2 Punkte.
+        \n
+        \nEine Besonderheit ist, sagt man 0 Stiche vor und hat 0 Stiche bekommt man trotzdem 5 Punkte.
+    </string>
 </resources>

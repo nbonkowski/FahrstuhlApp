@@ -1,6 +1,5 @@
 package com.github.oniklas.fahrstuhl.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -12,7 +11,7 @@ import com.github.oniklas.fahrstuhl.screens.home.HomeScreen
 import com.github.oniklas.fahrstuhl.screens.home.HomeViewModel
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyScreen
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.github.oniklas.fahrstuhl.screens.tutorial.TutorialScreen
 
 @Composable
 fun FahrstuhlNavigation(){
@@ -25,7 +24,17 @@ fun FahrstuhlNavigation(){
             val homeViewModel = hiltViewModel<HomeViewModel>()
             val game : Games = homeViewModel.game.collectAsState().value
             val firstTime : Boolean = game == null
-            HomeScreen(navController = navController, toContinue = if (!firstTime){game.finished}else{false}, firstTimeOpened = firstTime)
+            if(firstTime){
+                TutorialScreen(navController)
+            }else {
+                HomeScreen(
+                    navController = navController, toContinue = if (!firstTime) {
+                        game.finished
+                    } else {
+                        false
+                    }, firstTimeOpened = firstTime
+                )
+            }
         }
 
         composable(FahrstuhlScreens.LobbyScreen.name){
@@ -37,6 +46,14 @@ fun FahrstuhlNavigation(){
                 newGame = { lobbyViewModel.newGame(it)},
                 onRemovePlayer = {lobbyViewModel.removePlayer(it)}
             )
+        }
+
+        composable(FahrstuhlScreens.InGameScreen.name){
+
+        }
+
+        composable(FahrstuhlScreens.TutorialScreen.name){
+            TutorialScreen(navController)
         }
     }
 }
