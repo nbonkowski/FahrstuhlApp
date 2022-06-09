@@ -13,5 +13,6 @@ class PlayerRepository @Inject constructor(private val playerDao: PlayerDao) {
 
     suspend fun updatePlayer(player: Players) = playerDao.updatePlayer(player)
     suspend fun addPlayer(player: Players) = playerDao.insertPlayer(player)
+    suspend fun deletePlayer(player: Players)= playerDao.deletePlayer(player)
 
 }

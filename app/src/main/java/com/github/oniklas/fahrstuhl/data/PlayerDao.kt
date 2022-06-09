@@ -22,4 +22,7 @@ interface PlayerDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updatePlayer(players: Players)
 
+    @Delete
+    suspend fun deletePlayer(players: Players)
+
 }

@@ -4,6 +4,7 @@ import java.lang.IllegalArgumentException
 
 enum class FahrstuhlScreens {
     HomeScreen,
+    TutorialScreen,
     LobbyScreen,
     InGameScreen,
     WinningScreen;
@@ -11,6 +12,7 @@ enum class FahrstuhlScreens {
     companion object{
         fun fromRoute(route:String?): FahrstuhlScreens = when (route?.substringBefore("/")){
             HomeScreen.name -> HomeScreen
+            TutorialScreen.name -> TutorialScreen
             LobbyScreen.name -> LobbyScreen
             InGameScreen.name -> InGameScreen
             WinningScreen.name -> WinningScreen

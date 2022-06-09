@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Fahrstuhl</string>
+    <string name="rules">Fahrstuhl is played...</string>
 </resources>

@@ -12,5 +12,7 @@ data class Games(
     @ColumnInfo
     val rounds:Int = 12,
     @ColumnInfo
+    val round:Int = 0,
+    @ColumnInfo
     val finished: Boolean = false
 )

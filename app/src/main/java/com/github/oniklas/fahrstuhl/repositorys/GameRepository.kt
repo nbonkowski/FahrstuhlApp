@@ -16,5 +16,5 @@ class GameRepository @Inject constructor(private  val gameDao: GameDao) {
 
     suspend fun updateGame(game: Games)= gameDao.updateGame(game)
     suspend fun addGame(game:Games) = gameDao.insertGame(game)
-
+    suspend fun removeAllGames() = gameDao.removeAllGames()
 }

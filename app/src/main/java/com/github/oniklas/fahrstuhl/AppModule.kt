@@ -2,8 +2,7 @@ package com.github.oniklas.fahrstuhl
 
 import android.content.Context
 import androidx.room.Room
-import com.github.oniklas.fahrstuhl.data.FahrstuhlDatabase
-import com.github.oniklas.fahrstuhl.data.GameDao
+import com.github.oniklas.fahrstuhl.data.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +16,18 @@ object AppModule {
     @Singleton
     @Provides
     fun provideGameDao(fahrstuhlDatabase: FahrstuhlDatabase):GameDao = fahrstuhlDatabase.gameDao()
+
+    @Singleton
+    @Provides
+    fun providePlayerDao(fahrstuhlDatabase: FahrstuhlDatabase):PlayerDao = fahrstuhlDatabase.playerDao()
+
+    @Singleton
+    @Provides
+    fun provideRoundDao(fahrstuhlDatabase: FahrstuhlDatabase):RoundDao = fahrstuhlDatabase.roundDao()
+
+    @Singleton
+    @Provides
+    fun provideRoundPlayerDao(fahrstuhlDatabase: FahrstuhlDatabase):RoundPlayerDao = fahrstuhlDatabase.roundPlayerDao()
 
     @Singleton
     @Provides

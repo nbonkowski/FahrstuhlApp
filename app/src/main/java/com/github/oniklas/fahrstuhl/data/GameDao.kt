@@ -20,4 +20,7 @@ interface GameDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateGame(games: Games)
+
+    @Query("DELETE FROM GAMES")
+    suspend fun removeAllGames()
 }
