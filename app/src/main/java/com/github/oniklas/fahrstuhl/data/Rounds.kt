@@ -20,6 +20,8 @@ data class Rounds(
     @ColumnInfo
     val game:UUID,
     @ColumnInfo
+    val round:Int,
+    @ColumnInfo
     val firstPlayer: UUID,
 
 

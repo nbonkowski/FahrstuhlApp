@@ -12,4 +12,6 @@
         \n
         \nEine Besonderheit ist, sagt man 0 Stiche vor und hat 0 Stiche bekommt man trotzdem 5 Punkte.
     </string>
+    <string name="name_description">Name:</string>
+    <string name="prediction_description">Prediction</string>
 </resources>

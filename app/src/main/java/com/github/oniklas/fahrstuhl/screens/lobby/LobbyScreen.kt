@@ -82,7 +82,7 @@ fun LobbyScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = { newGame(game); player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.TutorialScreen.name) },
+                onClick = { newGame(game); player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.InGameScreen.name) },
                 modifier = Modifier.padding(8.dp),
                 enabled = !player_list.isNullOrEmpty() || !players.isNullOrEmpty()
             ) {

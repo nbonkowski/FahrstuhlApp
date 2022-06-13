@@ -7,11 +7,16 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.oniklas.fahrstuhl.data.Games
+import com.github.oniklas.fahrstuhl.data.Players
+import com.github.oniklas.fahrstuhl.data.RoundPlayer
+import com.github.oniklas.fahrstuhl.data.Rounds
 import com.github.oniklas.fahrstuhl.screens.home.HomeScreen
 import com.github.oniklas.fahrstuhl.screens.home.HomeViewModel
+import com.github.oniklas.fahrstuhl.screens.ingame.InGameScreen
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyScreen
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyViewModel
 import com.github.oniklas.fahrstuhl.screens.tutorial.TutorialScreen
+import java.util.*
 
 @Composable
 fun FahrstuhlNavigation(){
@@ -49,6 +54,13 @@ fun FahrstuhlNavigation(){
         }
 
         composable(FahrstuhlScreens.InGameScreen.name){
+            InGameScreen(players =
+            listOf(Players(name = "Maxim", game = UUID.randomUUID()),Players(name = "Maxim2", game = UUID.randomUUID())), rounds = listOf(
+                Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID()),Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID())
+            ), roundPlayers = listOf(listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),0,0)),
+                listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1),RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1)))){
+                    rounds, players -> null
+            }
 
         }
 
