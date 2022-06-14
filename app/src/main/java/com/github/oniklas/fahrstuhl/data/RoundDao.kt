@@ -16,8 +16,11 @@ interface RoundDao {
     fun getLastRound() : Flow<Rounds>
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateRound(rounds: Rounds)
+    suspend fun updateRound(rounds: Rounds)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertRound(rounds: Rounds)
+    suspend fun insertRound(rounds: Rounds)
+
+    @Query("Delete From Rounds")
+    suspend fun removeRounds()
 }
