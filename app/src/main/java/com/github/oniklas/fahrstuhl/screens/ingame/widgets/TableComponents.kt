@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -52,6 +53,7 @@ fun InputField(
 
 ){
     val keyboardController = LocalSoftwareKeyboardController.current
+    val focusManager = LocalFocusManager.current
 //    Surface( modifier = modifier.border(BorderStroke(1.dp, color = Color.Gray), shape = RectangleShape)) {
 
     BasicTextField(value = text, onValueChange = onTextChange,
@@ -66,6 +68,7 @@ fun InputField(
         keyboardActions = KeyboardActions(onDone = {
             onImeAction()
             keyboardController?.hide()
+            focusManager.clearFocus()
         }),
         modifier = modifier
             .padding(4.dp)
