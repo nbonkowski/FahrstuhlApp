@@ -13,6 +13,7 @@ import com.github.oniklas.fahrstuhl.data.Rounds
 import com.github.oniklas.fahrstuhl.screens.home.HomeScreen
 import com.github.oniklas.fahrstuhl.screens.home.HomeViewModel
 import com.github.oniklas.fahrstuhl.screens.ingame.InGameScreen
+import com.github.oniklas.fahrstuhl.screens.ingame.InGameViewModel
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyScreen
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyViewModel
 import com.github.oniklas.fahrstuhl.screens.tutorial.TutorialScreen
@@ -28,15 +29,15 @@ fun FahrstuhlNavigation(){
         composable(FahrstuhlScreens.HomeScreen.name){
             val homeViewModel = hiltViewModel<HomeViewModel>()
             val game : Games = homeViewModel.game.collectAsState().value
-            val firstTime : Boolean = game == null
+            val firstTime : Boolean = false
             if(firstTime){
                 TutorialScreen(navController)
             }else {
                 HomeScreen(
                     navController = navController, toContinue = if (!firstTime) {
-                        game.finished
+                        true
                     } else {
-                        false
+                        true
                     }, firstTimeOpened = firstTime
                 )
             }
@@ -54,13 +55,28 @@ fun FahrstuhlNavigation(){
         }
 
         composable(FahrstuhlScreens.InGameScreen.name){
-            InGameScreen(players =
-            listOf(Players(name = "Maxim", game = UUID.randomUUID()),Players(name = "Maxim2", game = UUID.randomUUID())), rounds = listOf(
-                Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID()),Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID())
-            ), roundPlayers = listOf(listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),0,0)),
-                listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1),RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1)))){
-                    rounds, players -> null
-            }
+        val inGameViewModel = hiltViewModel<InGameViewModel>()
+            InGameScreen(
+                players = inGameViewModel.playerList.collectAsState().value,
+                rounds = inGameViewModel.rounds.collectAsState().value,
+                roundPlayers = inGameViewModel.roundPlayers.collectAsState().value,
+                addRoundPlayer = { round, player ->
+                    inGameViewModel.addRoundPlayer(round,player)},
+                updateRoundPlayer ={
+                    inGameViewModel.updateRoundPlayer(it)
+                }
+            )
+            //Test Screen
+//            InGameScreen(players =
+//            listOf(Players(name = "Maxim", game = UUID.randomUUID()),Players(name = "Maxim2", game = UUID.randomUUID())), rounds = listOf(
+//                Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID()),Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID())
+//            ), roundPlayers = listOf(listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),0,0)),
+//                listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1),RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1))),
+//                addRoundPlayer = {  rounds, players -> null
+//
+//                }){
+//
+//            }
 
         }
 

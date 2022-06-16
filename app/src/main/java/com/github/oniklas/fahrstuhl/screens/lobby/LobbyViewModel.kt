@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRepository, private val gameRepository: GameRepository): ViewModel() {
-    private var _game = MutableStateFlow<Games>(Games())
+    private  var _game  = MutableStateFlow<Games>(Games())
+    private var isInit = false
     val game = _game.asStateFlow()
 
     private var _playerList = MutableStateFlow<List<Players>>(emptyList())
@@ -27,27 +28,25 @@ class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRep
     init {
         viewModelScope.launch(Dispatchers.IO) {
             gameRepository.getLastGame().distinctUntilChanged().collect {
-              if(it == null){
-                  _game.value = Games()
-              }
-                else{
-                  _game.value = it
-              }
+                _game = MutableStateFlow<Games>(it) //TODO change and test _game.value = it
+                isInit = true
             }
-                playerRepository.getAllPlayersFromGameId(_game.value.id).distinctUntilChanged().collect{
-                    if (it.isNullOrEmpty()){
-                        _playerList.value = emptyList()
-                    }
-                    else{
-                        _playerList.value = it
-                    }
-
+            if (!isInit){
+                gameRepository.addGame(_game.value)
+            }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            playerRepository.getAllPlayers().distinctUntilChanged().collect {
+                    _playerList.value = it
             }
         }
     }
 
     fun addPlayer(player: Players) = viewModelScope.launch {
-        playerRepository.addPlayer(player)
+
+        playerRepository.addPlayer(player.copy(
+            game = _game.value.id
+        ))
     }
     fun removePlayer(player: Players) = viewModelScope.launch {
         playerRepository.deletePlayer(player)

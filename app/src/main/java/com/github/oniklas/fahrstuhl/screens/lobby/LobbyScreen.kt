@@ -22,7 +22,7 @@ import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
 @Composable
 fun LobbyScreen(
     modifier: Modifier = Modifier,
-    game : Games = Games(),
+    game : Games ,
     players: List<Players> = emptyList(),
     navController: NavHostController,
     onAddPlayer: (Players) -> Unit,
@@ -82,7 +82,7 @@ fun LobbyScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = { newGame(game); player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.InGameScreen.name) },
+                onClick = {  player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.InGameScreen.name) },
                 modifier = Modifier.padding(8.dp),
                 enabled = !player_list.isNullOrEmpty() || !players.isNullOrEmpty()
             ) {

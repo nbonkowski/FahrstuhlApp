@@ -14,4 +14,6 @@
     </string>
     <string name="name_description">Name:</string>
     <string name="prediction_description">Prediction</string>
+    <string name="trick_description">Stich</string>
+    <string name="points_description">Punkte</string>
 </resources>

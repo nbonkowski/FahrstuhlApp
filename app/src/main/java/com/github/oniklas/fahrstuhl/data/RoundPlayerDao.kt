@@ -9,9 +9,6 @@ interface RoundPlayerDao {
     @Query("SELECT * FROM RoundPlayer")
     fun getAllRoundPlayers(): Flow<List<RoundPlayer>>
 
-    @Query("SELECT * FROM ROUNDPLAYER where game = :gameid")
-    fun getRoundPlayersFromGameId(gameid : UUID):Flow<List<RoundPlayer>>
-
     @Query("SELECT * FROM ROUNDPLAYER where round = :roundid")
     fun getRoundPlayerFromRoundId(roundid : UUID):Flow<List<RoundPlayer>>
 
