@@ -64,6 +64,8 @@ fun InGameScreen(
                 DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth()) //TODO Slice Name after X letters
                 if(!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()){
                         for (round in roundPlayers.get(player.id)!!) {//!! call because of isNull check above
+
+                            /*Input field for Prediction */
                             var round_prediction by remember {
                                 mutableStateOf(round.prediction.toString())
                             }
@@ -72,17 +74,23 @@ fun InGameScreen(
                                         char.isDigit()
                                     }) round_prediction = it
                             }) {
-
+                                updateRoundPlayer(round.copy(
+                                    prediction = round_prediction.toInt()
+                                ))
                             }
                             var round_trick by remember {
-                                mutableStateOf(round.prediction.toString())
+                                mutableStateOf(round.trick.toString())
                             }
+
+                            /*Input field for Trick */
                             InputField(text = round_trick, onTextChange = {
                                 if (it.all { char ->
                                         char.isDigit()
                                     }) round_trick = it
                             }) {
-
+                                updateRoundPlayer(round.copy(
+                                    trick = round_trick.toInt()
+                                ))
                             }
                         }
                 }

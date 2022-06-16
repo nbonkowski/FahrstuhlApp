@@ -65,27 +65,27 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
             launch(Dispatchers.IO) {
 //                roundRepository.removeRounds()
                 gameRepository.getLastGame()
-                    .distinctUntilChanged().onEach {
+                    .distinctUntilChanged().collect {
                     _game.value = it
                 }
 
             }
            launch(Dispatchers.IO) {
                 playerRepository.getAllPlayersFromGameId(_game.value.id).distinctUntilChanged()
-                    .onEach {
+                    .collect {
                         _playerList.value = it
 
                     }
             }
             launch(Dispatchers.IO) {
                 roundRepository.getRoundsOfGame(_game.last().id).distinctUntilChanged()
-                    .onEach {
+                    .collect {
                         _rounds.value = it
                     }
             }
             launch(Dispatchers.IO) {
                 _playerList.value.forEach { player ->
-                        roundPlayerRepository.getAllRoundsOfPlayer(playerid = player.id).distinctUntilChanged().collect{
+                        roundPlayerRepository.getAllRoundsOfPlayer(playerid = player.id).distinctUntilChanged().onEach{
                             _roundPlayers.value[player.id] = it
                         }
                 }
