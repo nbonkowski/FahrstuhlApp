@@ -3,12 +3,12 @@ package com.github.oniklas.fahrstuhl.screens.ingame
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.Text
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.oniklas.fahrstuhl.R
 import com.github.oniklas.fahrstuhl.data.Players
@@ -32,7 +32,8 @@ fun InGameScreen(
         item {
             Column(
                 Modifier
-                    .width(intrinsicSize = IntrinsicSize.Max)) {
+                    .width(intrinsicSize = IntrinsicSize.Max)
+                    .height(intrinsicSize = IntrinsicSize.Min)) {
                 DescriptionField(
                     text = stringResource(R.string.name_description),
                     modifier = Modifier.fillMaxWidth()
@@ -52,13 +53,15 @@ fun InGameScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+            Divider(color = Color.Black, modifier = Modifier.fillParentMaxHeight().width(1.dp))
         }
+
         itemsIndexed(players){ index, player ->
             Column(
                 Modifier
                     .width(intrinsicSize = IntrinsicSize.Max)
                     ) {
-                DescriptionField(text = player.name.toString(), modifier = Modifier.fillMaxWidth()) //TODO Slice Name after X letters
+                DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth()) //TODO Slice Name after X letters
                 if(!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()){
                         for (round in roundPlayers.get(player.id)!!) {//!! call because of isNull check above
                             var round_prediction by remember {
@@ -88,6 +91,7 @@ fun InGameScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+            Divider(color = Color.DarkGray, modifier = Modifier.fillParentMaxHeight().width(1.dp))
         }
     }
 }
