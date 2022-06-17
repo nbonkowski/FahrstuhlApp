@@ -5,11 +5,8 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.Divider
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -25,6 +22,7 @@ import com.github.oniklas.fahrstuhl.data.Rounds
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
 import java.util.*
+import kotlin.collections.HashMap
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -32,6 +30,7 @@ fun InGameScreen(
     players: List<Players>,
     rounds: List<Rounds>,
     roundPlayers: HashMap<UUID,List<RoundPlayer>>,
+    playerPoints: HashMap<UUID, Int>,
     addRoundPlayer: (Rounds, Players) -> Unit,
     nextRound: () ->Unit,
     updateRoundPlayer: (RoundPlayer) ->Unit,
@@ -47,58 +46,71 @@ fun InGameScreen(
     )
     }
     val extraRounds : Int = players.size
-    Surface(  Modifier.verticalScroll(rememberScrollState())){
-    LazyRow(Modifier.fillMaxWidth()){
-        stickyHeader {
-            Column(
-                Modifier
-                    .width(intrinsicSize = IntrinsicSize.Max)
-                    .height(intrinsicSize = IntrinsicSize.Min)) {
-                DescriptionField(
-                    text = stringResource(R.string.name_description),
-                    modifier = Modifier.fillMaxWidth()
-                )
-                for (round in rounds) {
-                    roundDescriptionItem(
-                        text = "Round " + round.round.toString(),
-                    )
+    Scaffold(
+        content = {
+    Surface(  Modifier.verticalScroll(rememberScrollState())) {
+        LazyRow(Modifier.fillMaxWidth()) {
+            stickyHeader {
+                Column(
+                    Modifier
+                        .width(intrinsicSize = IntrinsicSize.Max)
+                        .height(intrinsicSize = IntrinsicSize.Min)
+                ) {
                     DescriptionField(
-                        text = stringResource(R.string.prediction_description),
+                        text = stringResource(R.string.name_description),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    for (round in rounds) {
+                        roundDescriptionItem(
+                            text = "Round " + round.round.toString(),
+                        )
+                        DescriptionField(
+                            text = stringResource(R.string.prediction_description),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        DescriptionField(
+                            text = stringResource(R.string.trick_description),
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
                     DescriptionField(
-                        text = stringResource(R.string.trick_description),
+                        text = stringResource(R.string.points_description),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
-                DescriptionField(
-                    text = stringResource(R.string.points_description),
-                    modifier = Modifier.fillMaxWidth()
+                Divider(
+                    color = Color.Black, modifier = Modifier
+                        .fillParentMaxHeight()
+                        .width(1.dp)
                 )
             }
-            Divider(color = Color.Black, modifier = Modifier
-                .fillParentMaxHeight()
-                .width(1.dp))
-        }
 
-        itemsIndexed(players){ index, player ->
-            Column(
-                Modifier
-                    .width(intrinsicSize = IntrinsicSize.Max)
-                    .defaultMinSize(minWidth = 80.dp, 10.dp)
-                    ) {
-                DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth())
-                if(!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()){
-                        for ((round_index,round) in roundPlayers[player.id]!!.iterator().withIndex()) {//!! call because of isNull check above
+            itemsIndexed(players) { index, player ->
+                Column(
+                    Modifier
+                        .width(intrinsicSize = IntrinsicSize.Max)
+                        .defaultMinSize(minWidth = 80.dp, 10.dp)
+                ) {
+                    DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth())
+                    if (!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()) {
+                        for ((round_index, round) in roundPlayers[player.id]!!.iterator()
+                            .withIndex()) {//!! call because of isNull check above
                             roundDescriptionItem(
-                                text = if (index == 0){"Cards ${when(round_index){
-                                    in 0..5 -> round_index * 2 + 1
-                                    in 6..5+extraRounds -> 13
-                                    in 5+extraRounds..11+extraRounds -> 13- (round_index-5-extraRounds)*2
-                                    else -> {0}
-                                }
-                                    
-                                }"}else{""},
+                                text = if (index == 0) {
+                                    "Cards ${
+                                        when (round_index) {
+                                            in 0..5 -> round_index * 2 + 1
+                                            in 6..5 + extraRounds -> 13
+                                            in 5 + extraRounds..11 + extraRounds -> 13 - (round_index - 5 - extraRounds) * 2
+                                            else -> {
+                                                0
+                                            }
+                                        }
+
+                                    }"
+                                } else {
+                                    ""
+                                },
                             )
                             /*Input field for Prediction */
                             var round_prediction by remember {
@@ -109,9 +121,11 @@ fun InGameScreen(
                                         char.isDigit()
                                     }) round_prediction = it
                             }) {
-                                updateRoundPlayer(round.copy(
-                                    prediction = round_prediction.toInt()
-                                ))
+                                updateRoundPlayer(
+                                    round.copy(
+                                        prediction = round_prediction.toInt()
+                                    )
+                                )
                             }
                             var round_trick by remember {
                                 mutableStateOf(round.trick.toString())
@@ -123,27 +137,29 @@ fun InGameScreen(
                                         char.isDigit()
                                     }) round_trick = it
                             }) {
-                                updateRoundPlayer(round.copy(
-                                    trick = round_trick.toInt()
-                                ))
+                                updateRoundPlayer(
+                                    round.copy(
+                                        trick = round_trick.toInt()
+                                    )
+                                )
                             }
                         }
+                    }
+                    DescriptionField(
+                        text = playerPoints[player.id].toString(),
+                        modifier = Modifier.fillMaxWidth()
+                    )
                 }
-                DescriptionField(
-                    text = "0",//TODO Replace with points
-                    modifier = Modifier.fillMaxWidth()
-                )
             }
-//            Divider(color = Color.DarkGray, modifier = Modifier
-//                .fillParentMaxHeight()
-//                .width(1.dp))
         }
     }
-}
-    Button(onClick = {nextRound()}) {
-        Text(text = "Next Round")
-    }
 
+    },
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {FloatingActionButton(  onClick = {nextRound()}) {
+            Text(modifier = Modifier.padding(10.dp),text = "Next Round")
+        }}
+    )
 }
 
 //@Preview(showBackground = true)

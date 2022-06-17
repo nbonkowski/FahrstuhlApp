@@ -29,16 +29,12 @@ fun FahrstuhlNavigation(){
         composable(FahrstuhlScreens.HomeScreen.name){
             val homeViewModel = hiltViewModel<HomeViewModel>()
             val game : Games = homeViewModel.game.collectAsState().value
-            val firstTime : Boolean = false
+            val firstTime : Boolean  = true//homeViewModel.isFirst
             if(firstTime){
                 TutorialScreen(navController)
             }else {
                 HomeScreen(
-                    navController = navController, toContinue = if (!firstTime) {
-                        true
-                    } else {
-                        true
-                    }, firstTimeOpened = firstTime
+                    navController = navController, toContinue = !firstTime && !game.finished, firstTimeOpened = firstTime
                 )
             }
         }
@@ -60,6 +56,7 @@ fun FahrstuhlNavigation(){
                 players = inGameViewModel.playerList.collectAsState().value,
                 rounds = inGameViewModel.rounds.collectAsState().value,
                 roundPlayers = inGameViewModel.roundPlayers.collectAsState().value,
+                playerPoints = inGameViewModel.playerPoints.collectAsState().value,
                 nextRound = {
                     inGameViewModel.nextRound()
                 },

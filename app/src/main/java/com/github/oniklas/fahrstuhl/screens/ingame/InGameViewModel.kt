@@ -17,6 +17,7 @@ import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
+import kotlin.math.abs
 
 @HiltViewModel
 class InGameViewModel @Inject constructor(private val gameRepository: GameRepository,
@@ -36,6 +37,8 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
     private var _roundPlayers = MutableStateFlow<HashMap<UUID,List<RoundPlayer>>>(HashMap<UUID,List<RoundPlayer>>())
     val roundPlayers = _roundPlayers.asStateFlow()
 
+    private var _playerPoints = MutableStateFlow<HashMap<UUID, Int>>(HashMap())
+    val playerPoints = _playerPoints.asStateFlow()
 
     init {
         //initialising States
@@ -80,6 +83,14 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
                         roundRepository.getAllRoundPlayer().distinctUntilChanged().collect{
                             _playerList.value.forEach { player ->
                                 _roundPlayers.value[player.id] = roundRepository.getAllRoundsOfPlayer(player.id).first()
+                                var _points = 0
+                                _roundPlayers.value[player.id]!!.forEach{
+                                     when(abs(it.prediction - it.trick)){
+                                        0-> _points += if (it.prediction > 0){ it.prediction * 5}else{5}
+                                        else -> {_points -= abs(it.prediction - it.trick)}
+                                    }
+                                }
+                                _playerPoints.value[player.id] = _points
                             }
                         }
             }

@@ -17,7 +17,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repository: GameRepository): ViewModel() {
     private var _game = MutableStateFlow<Games>(Games())
     val game = _game.asStateFlow()
-    //if(_game.asStateFlow().value != null && _game.value.round > 0) _game.asStateFlow().value.finished else true
+    var isFirst :Boolean = false
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -25,9 +25,14 @@ class HomeViewModel @Inject constructor(private val repository: GameRepository):
 //           repository.removeAllGames()
             repository.getAllGames().distinctUntilChanged().collect {
                 if (it.isEmpty()) {
+                    isFirst = true
                     repository.addGame(_game.value)
                 }
+                else {
+                    _game.value = it.last()
+                }
             }
+
         }
     }
 }
