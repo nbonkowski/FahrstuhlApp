@@ -1,6 +1,5 @@
 package com.github.oniklas.fahrstuhl.screens.ingame
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.oniklas.fahrstuhl.data.Games
@@ -9,7 +8,6 @@ import com.github.oniklas.fahrstuhl.data.RoundPlayer
 import com.github.oniklas.fahrstuhl.data.Rounds
 import com.github.oniklas.fahrstuhl.repositorys.GameRepository
 import com.github.oniklas.fahrstuhl.repositorys.PlayerRepository
-import com.github.oniklas.fahrstuhl.repositorys.RoundPlayerRepository
 import com.github.oniklas.fahrstuhl.repositorys.RoundRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,7 +22,6 @@ import kotlin.collections.HashMap
 class InGameViewModel @Inject constructor(private val gameRepository: GameRepository,
                                           private val playerRepository : PlayerRepository,
                                           private val roundRepository: RoundRepository,
-                                          private val roundPlayerRepository: RoundPlayerRepository
 ) : ViewModel() {
 
     private var _game = MutableStateFlow<Games>(Games())
@@ -48,11 +45,12 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
             _rounds.value =  roundRepository.getRoundsOfGame(_game.value.id).first()
 
             if(_rounds.value.isNullOrEmpty()){
-                nextRound()
+                    nextRound()
+
             }
-            _playerList.value.forEach { player ->
-                _roundPlayers.value[player.id] = roundPlayerRepository.getAllRoundsOfPlayer(player.id).first()
-            }
+//            _playerList.value.forEach { player ->
+//                _roundPlayers.value[player.id] = roundRepository.getAllRoundsOfPlayer(player.id).first()
+//            }
         }
     // subscribe to Flow events
         viewModelScope.launch(Dispatchers.IO){
@@ -79,9 +77,9 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
                     }
             }
             launch(Dispatchers.IO) {
-                        roundPlayerRepository.getAllRoundPlayer().distinctUntilChanged().collect{
+                        roundRepository.getAllRoundPlayer().distinctUntilChanged().collect{
                             _playerList.value.forEach { player ->
-                                _roundPlayers.value[player.id] = roundPlayerRepository.getAllRoundsOfPlayer(player.id).first()
+                                _roundPlayers.value[player.id] = roundRepository.getAllRoundsOfPlayer(player.id).first()
                             }
                         }
             }
@@ -94,12 +92,12 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
         roundRepository.insertRound(newRound)
 
         _playerList.value.forEach { player ->
-            roundPlayerRepository.addRoundPlayer(RoundPlayer(player.id, _rounds.value.last().id, prediction = 0, trick = 0 ))
+            roundRepository.addRoundPlayer(RoundPlayer(player = player.id, round = newRound.id , prediction = 0, trick = 0 ))
         }
     }
 
     fun updateRoundPlayer(roundPlayer: RoundPlayer) = viewModelScope.launch {
-            roundPlayerRepository.updateRoundPlayer(roundPlayer)
+            roundRepository.updateRoundPlayer(roundPlayer)
         }
 
     fun addRound() = viewModelScope.launch {
@@ -110,7 +108,7 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
     }
 
     fun addRoundPlayer(round : Rounds, player: Players)= viewModelScope.launch {
-        roundPlayerRepository.addRoundPlayer(RoundPlayer( round = round.id, player = player.id))
+        roundRepository.addRoundPlayer(RoundPlayer( round = round.id, player = player.id))
     }
 
 }

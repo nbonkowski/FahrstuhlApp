@@ -14,6 +14,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -21,7 +23,9 @@ fun DescriptionField(
     modifier: Modifier = Modifier,
     maxLetters: Int = 10,
     text: String,
-    borderColor: Color = Color.Black
+    borderColor: Color = Color.Black,
+    fontSize: TextUnit = MaterialTheme.typography.body2.fontSize,
+    padding : Dp = 4.dp
 ){
     Surface(modifier = modifier
         .fillMaxWidth()
@@ -29,9 +33,9 @@ fun DescriptionField(
 
         Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
 
-       Text(text = if (text.length> maxLetters){text.slice(0 until maxLetters)}else{text},fontSize = MaterialTheme.typography.body2.fontSize,fontWeight = MaterialTheme.typography.body2.fontWeight,   textAlign = TextAlign.Center, modifier = Modifier
+       Text(text = if (text.length> maxLetters){text.slice(0 until maxLetters)}else{text},fontSize = fontSize ,fontWeight = MaterialTheme.typography.body2.fontWeight,   textAlign = TextAlign.Center, modifier = Modifier
            .fillMaxWidth()
-           .padding(4.dp))
+           .padding(padding))
 
 //        Divider(color = Color.Green, modifier = Modifier.fillMaxHeight().width(1.dp))
         }

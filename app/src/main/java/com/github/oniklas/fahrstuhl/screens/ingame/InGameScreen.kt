@@ -1,14 +1,12 @@
 package com.github.oniklas.fahrstuhl.screens.ingame
 
 
-import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.scrollable
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.Text
@@ -17,7 +15,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.github.oniklas.fahrstuhl.R
 import com.github.oniklas.fahrstuhl.data.Players
 import com.github.oniklas.fahrstuhl.data.RoundPlayer
@@ -26,7 +26,7 @@ import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
 import java.util.*
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun InGameScreen(
     players: List<Players>,
@@ -37,9 +37,19 @@ fun InGameScreen(
     updateRoundPlayer: (RoundPlayer) ->Unit,
 )
 {
+    @Composable
+    fun roundDescriptionItem(text: String) {
+        DescriptionField(
+        text =  text,
+        modifier = Modifier.fillMaxWidth(),
+        fontSize = 10.sp,
+        padding = 0.dp
+    )
+    }
+    val extraRounds : Int = players.size
     Surface(  Modifier.verticalScroll(rememberScrollState())){
     LazyRow(Modifier.fillMaxWidth()){
-        item {
+        stickyHeader {
             Column(
                 Modifier
                     .width(intrinsicSize = IntrinsicSize.Max)
@@ -49,10 +59,13 @@ fun InGameScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
                 for (round in rounds) {
+                    roundDescriptionItem(
+                        text = "Round " + round.round.toString(),
+                    )
                     DescriptionField(
                         text = stringResource(R.string.prediction_description),
                         modifier = Modifier.fillMaxWidth()
-                    ) //TODO Slice String after X letters
+                    )
                     DescriptionField(
                         text = stringResource(R.string.trick_description),
                         modifier = Modifier.fillMaxWidth()
@@ -74,10 +87,19 @@ fun InGameScreen(
                     .width(intrinsicSize = IntrinsicSize.Max)
                     .defaultMinSize(minWidth = 80.dp, 10.dp)
                     ) {
-                DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth()) //TODO Slice Name after X letters
+                DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth())
                 if(!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()){
-                        for (round in roundPlayers.get(player.id)!!) {//!! call because of isNull check above
-
+                        for ((round_index,round) in roundPlayers[player.id]!!.iterator().withIndex()) {//!! call because of isNull check above
+                            roundDescriptionItem(
+                                text = if (index == 0){"Cards ${when(round_index){
+                                    in 0..5 -> round_index * 2 + 1
+                                    in 6..5+extraRounds -> 13
+                                    in 5+extraRounds..11+extraRounds -> 13- (round_index-5-extraRounds)*2
+                                    else -> {0}
+                                }
+                                    
+                                }"}else{""},
+                            )
                             /*Input field for Prediction */
                             var round_prediction by remember {
                                 mutableStateOf(round.prediction.toString())
