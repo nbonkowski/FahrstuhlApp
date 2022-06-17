@@ -1,9 +1,17 @@
 package com.github.oniklas.fahrstuhl.screens.ingame
 
 
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
 import androidx.compose.material.TabRowDefaults.Divider
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -25,9 +33,11 @@ fun InGameScreen(
     rounds: List<Rounds>,
     roundPlayers: HashMap<UUID,List<RoundPlayer>>,
     addRoundPlayer: (Rounds, Players) -> Unit,
+    nextRound: () ->Unit,
     updateRoundPlayer: (RoundPlayer) ->Unit,
 )
 {
+    Surface(  Modifier.verticalScroll(rememberScrollState())){
     LazyRow(Modifier.fillMaxWidth()){
         item {
             Column(
@@ -53,13 +63,16 @@ fun InGameScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            Divider(color = Color.Black, modifier = Modifier.fillParentMaxHeight().width(1.dp))
+            Divider(color = Color.Black, modifier = Modifier
+                .fillParentMaxHeight()
+                .width(1.dp))
         }
 
         itemsIndexed(players){ index, player ->
             Column(
                 Modifier
                     .width(intrinsicSize = IntrinsicSize.Max)
+                    .defaultMinSize(minWidth = 80.dp, 10.dp)
                     ) {
                 DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth()) //TODO Slice Name after X letters
                 if(!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()){
@@ -99,11 +112,17 @@ fun InGameScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
-            Divider(color = Color.DarkGray, modifier = Modifier.fillParentMaxHeight().width(1.dp))
+//            Divider(color = Color.DarkGray, modifier = Modifier
+//                .fillParentMaxHeight()
+//                .width(1.dp))
         }
     }
 }
+    Button(onClick = {nextRound()}) {
+        Text(text = "Next Round")
+    }
 
+}
 
 //@Preview(showBackground = true)
 //@Composable

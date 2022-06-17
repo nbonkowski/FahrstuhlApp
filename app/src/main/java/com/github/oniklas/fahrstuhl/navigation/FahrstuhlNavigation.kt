@@ -60,6 +60,9 @@ fun FahrstuhlNavigation(){
                 players = inGameViewModel.playerList.collectAsState().value,
                 rounds = inGameViewModel.rounds.collectAsState().value,
                 roundPlayers = inGameViewModel.roundPlayers.collectAsState().value,
+                nextRound = {
+                    inGameViewModel.nextRound()
+                },
                 addRoundPlayer = { round, player ->
                     inGameViewModel.addRoundPlayer(round,player)},
                 updateRoundPlayer ={
