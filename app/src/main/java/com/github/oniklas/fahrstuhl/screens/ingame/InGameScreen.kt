@@ -2,7 +2,6 @@ package com.github.oniklas.fahrstuhl.screens.ingame
 
 
 import androidx.compose.foundation.*
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material.*
@@ -12,13 +11,12 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.oniklas.fahrstuhl.R
-import com.github.oniklas.fahrstuhl.data.Players
-import com.github.oniklas.fahrstuhl.data.RoundPlayer
-import com.github.oniklas.fahrstuhl.data.Rounds
+import com.github.oniklas.fahrstuhl.data.Player
+import com.github.oniklas.fahrstuhl.data.RoundPlayerCrossRef
+import com.github.oniklas.fahrstuhl.data.Round
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
 import java.util.*
@@ -27,13 +25,13 @@ import kotlin.collections.HashMap
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun InGameScreen(
-    players: List<Players>,
-    rounds: List<Rounds>,
-    roundPlayers: HashMap<UUID,List<RoundPlayer>>,
+    players: List<Player>,
+    rounds: List<Round>,
+    roundPlayers: HashMap<UUID,List<RoundPlayerCrossRef>>,
     playerPoints: HashMap<UUID, Int>,
-    addRoundPlayer: (Rounds, Players) -> Unit,
+    addRoundPlayer: (Round, Player) -> Unit,
     nextRound: () ->Unit,
-    updateRoundPlayer: (RoundPlayer) ->Unit,
+    updateRoundPlayer: (RoundPlayerCrossRef) ->Unit,
 )
 {
     @Composable
@@ -167,9 +165,9 @@ fun InGameScreen(
 //fun IngameScreenPreview(){
 //    InGameScreen(players =
 //    listOf(Players(name = "Maxim", game = UUID.randomUUID()),Players(name = "Maxim2", game = UUID.randomUUID())), rounds = listOf(
-//        Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID()),Rounds(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID())
-//    ), roundPlayers = listOf(listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),0,0)),
-//        listOf(RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1),RoundPlayer(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1))),
+//        Round(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID()),Round(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID())
+//    ), roundPlayers = listOf(listOf(RoundPlayerCrossRef(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),0,0)),
+//        listOf(RoundPlayerCrossRef(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1),RoundPlayerCrossRef(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1))),
 //        addRoundPlayer = {  rounds, players -> null
 //
 //        }){

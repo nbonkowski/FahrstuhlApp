@@ -7,12 +7,12 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(foreignKeys = [ForeignKey(
-    entity = Games::class,
+    entity = Game::class,
     parentColumns = arrayOf("id"),
     childColumns = arrayOf("game"),
     onDelete = ForeignKey.CASCADE
 )])
-data class Players(
+data class Player(
     @PrimaryKey
     val id : UUID = UUID.randomUUID(),
     @ColumnInfo

@@ -1,6 +1,6 @@
 package com.github.oniklas.fahrstuhl.screens.lobby
 
-import com.github.oniklas.fahrstuhl.data.Players
+import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.screens.lobby.widgets.lobbyItem
 import com.github.oniklas.fahrstuhl.shared.NameInput
 
@@ -16,28 +16,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 import androidx.navigation.NavHostController
-import com.github.oniklas.fahrstuhl.data.Games
+import com.github.oniklas.fahrstuhl.data.Game
 import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
 
 @Composable
 fun LobbyScreen(
     modifier: Modifier = Modifier,
-    game : Games ,
-    players: List<Players> = emptyList(),
+    game : Game,
+    players: List<Player> = emptyList(),
     navController: NavHostController,
-    onAddPlayer: (Players) -> Unit,
-    newGame: (Games) -> Unit,
-    onRemovePlayer: (Players) -> Unit
+    onAddPlayer: (Player) -> Unit,
+    newGame: (Game) -> Unit,
+    onRemovePlayer: (Player) -> Unit
 ){
     var name by remember {
         mutableStateOf("")
     }
     var player_list by remember {
-        mutableStateOf(emptyList<Players>())
+        mutableStateOf(emptyList<Player>())
     }
     fun add(){
         if(name.isNotEmpty()){
-             player_list += (Players(name = name, game = game.id))
+             player_list += (Player(name = name, game = game.id))
             //onAddPlayer(Players(name = name, game = game.id))
             name =""
         }

@@ -2,10 +2,10 @@ package com.github.oniklas.fahrstuhl.screens.ingame
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.oniklas.fahrstuhl.data.Games
-import com.github.oniklas.fahrstuhl.data.Players
-import com.github.oniklas.fahrstuhl.data.RoundPlayer
-import com.github.oniklas.fahrstuhl.data.Rounds
+import com.github.oniklas.fahrstuhl.data.Game
+import com.github.oniklas.fahrstuhl.data.Player
+import com.github.oniklas.fahrstuhl.data.RoundPlayerCrossRef
+import com.github.oniklas.fahrstuhl.data.Round
 import com.github.oniklas.fahrstuhl.repositorys.GameRepository
 import com.github.oniklas.fahrstuhl.repositorys.PlayerRepository
 import com.github.oniklas.fahrstuhl.repositorys.RoundRepository
@@ -25,16 +25,16 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
                                           private val roundRepository: RoundRepository,
 ) : ViewModel() {
 
-    private var _game = MutableStateFlow<Games>(Games())
+    private var _game = MutableStateFlow<Game>(Game())
     val game = _game.asStateFlow()
 
-    private var _playerList = MutableStateFlow<List<Players>>(emptyList())
+    private var _playerList = MutableStateFlow<List<Player>>(emptyList())
     val playerList = _playerList.asStateFlow()
 
-    private var _rounds = MutableStateFlow<List<Rounds>>(emptyList())
+    private var _rounds = MutableStateFlow<List<Round>>(emptyList())
     val rounds = _rounds.asStateFlow()
 
-    private var _roundPlayers = MutableStateFlow<HashMap<UUID,List<RoundPlayer>>>(HashMap<UUID,List<RoundPlayer>>())
+    private var _roundPlayers = MutableStateFlow<HashMap<UUID,List<RoundPlayerCrossRef>>>(HashMap<UUID,List<RoundPlayerCrossRef>>())
     val roundPlayers = _roundPlayers.asStateFlow()
 
     private var _playerPoints = MutableStateFlow<HashMap<UUID, Int>>(HashMap())
@@ -82,15 +82,15 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
             launch(Dispatchers.IO) {
                         roundRepository.getAllRoundPlayer().distinctUntilChanged().collect{
                             _playerList.value.forEach { player ->
-                                _roundPlayers.value[player.id] = roundRepository.getAllRoundsOfPlayer(player.id).first()
-                                var _points = 0
+                                _roundPlayers.value[player.id] = playerRepository.getPlayerWithRounds(player.id).last().roundPlayerCrossRef
+                                var points = 0
                                 _roundPlayers.value[player.id]!!.forEach{
-                                     when(abs(it.prediction - it.trick)){
-                                        0-> _points += if (it.prediction > 0){ it.prediction * 5}else{5}
-                                        else -> {_points -= abs(it.prediction - it.trick)}
-                                    }
+                                     if(abs(it.prediction - it.trick) == 0 ){
+                                         points += if (it.prediction > 0){ it.prediction * 5}else{5}
+
+                                    }else {points -= abs(it.prediction - it.trick) * 2}
                                 }
-                                _playerPoints.value[player.id] = _points
+                                _playerPoints.value[player.id] = points
                             }
                         }
             }
@@ -99,15 +99,15 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
 
 
     fun nextRound() = viewModelScope.launch{
-        val newRound  = Rounds(game = _game.value.id, firstPlayer = _playerList.value[_rounds.value.size%_playerList.value.size].id, round = _rounds.value.size)
+        val newRound  = Round(game = _game.value.id, firstPlayer = _playerList.value[_rounds.value.size%_playerList.value.size].id, round = _rounds.value.size)
         roundRepository.insertRound(newRound)
 
         _playerList.value.forEach { player ->
-            roundRepository.addRoundPlayer(RoundPlayer(player = player.id, round = newRound.id , prediction = 0, trick = 0 ))
+            roundRepository.addRoundPlayer(RoundPlayerCrossRef(player = player.id, round = newRound.id , prediction = 0, trick = 0 ))
         }
     }
 
-    fun updateRoundPlayer(roundPlayer: RoundPlayer) = viewModelScope.launch {
+    fun updateRoundPlayer(roundPlayer: RoundPlayerCrossRef) = viewModelScope.launch {
             roundRepository.updateRoundPlayer(roundPlayer)
         }
 
@@ -118,8 +118,8 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
         ))
     }
 
-    fun addRoundPlayer(round : Rounds, player: Players)= viewModelScope.launch {
-        roundRepository.addRoundPlayer(RoundPlayer( round = round.id, player = player.id))
+    fun addRoundPlayer(round : Round, player: Player)= viewModelScope.launch {
+        roundRepository.addRoundPlayer(RoundPlayerCrossRef( round = round.id, player = player.id))
     }
 
 }

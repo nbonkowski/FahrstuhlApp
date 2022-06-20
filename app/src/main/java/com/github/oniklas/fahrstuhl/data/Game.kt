@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity
-data class Games(
+data class Game(
     @PrimaryKey
     val id: UUID  = UUID.randomUUID(),
     @ColumnInfo

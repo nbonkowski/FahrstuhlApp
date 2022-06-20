@@ -7,12 +7,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.github.oniklas.fahrstuhl.data.Players
+import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.shared.IconButton
 
 @Composable
 fun lobbyItem(
-    player: Players,
+    player: Player,
     modifier: Modifier = Modifier,
     onRemove:() -> Unit
 ){

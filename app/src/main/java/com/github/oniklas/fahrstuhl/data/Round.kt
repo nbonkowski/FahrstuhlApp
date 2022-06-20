@@ -7,14 +7,17 @@ import androidx.room.PrimaryKey
 import java.util.*
 
 @Entity(
-    foreignKeys = [ForeignKey(entity = Players::class,
-    parentColumns = arrayOf("id"),
-    childColumns = arrayOf("firstPlayer")),
-        ForeignKey(entity = Games::class,
+    foreignKeys = [
+        ForeignKey(entity = Player::class,
         parentColumns = arrayOf("id"),
-        childColumns = arrayOf("game"))]
+        childColumns = arrayOf("firstPlayer")),
+
+        ForeignKey(entity = Game::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("game"))
+    ]
 )
-data class Rounds(
+data class Round(
     @PrimaryKey
     val id: UUID = UUID.randomUUID(),
     @ColumnInfo
@@ -23,6 +26,5 @@ data class Rounds(
     val round:Int,
     @ColumnInfo
     val firstPlayer: UUID,
-
 
 )

@@ -3,8 +3,8 @@ package com.github.oniklas.fahrstuhl.screens.lobby
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.oniklas.fahrstuhl.data.Games
-import com.github.oniklas.fahrstuhl.data.Players
+import com.github.oniklas.fahrstuhl.data.Game
+import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.repositorys.GameRepository
 import com.github.oniklas.fahrstuhl.repositorys.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,17 +18,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRepository, private val gameRepository: GameRepository): ViewModel() {
-    private  var _game  = MutableStateFlow<Games>(Games())
+    private  var _game  = MutableStateFlow<Game>(Game())
     private var isInit = false
     val game = _game.asStateFlow()
 
-    private var _playerList = MutableStateFlow<List<Players>>(emptyList())
+    private var _playerList = MutableStateFlow<List<Player>>(emptyList())
     val playerList = _playerList.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
             gameRepository.getLastGame().distinctUntilChanged().collect {
-                _game = MutableStateFlow<Games>(it) //TODO change and test _game.value = it
+                _game = MutableStateFlow<Game>(it) //TODO change and test _game.value = it
                 isInit = true
             }
             if (!isInit){
@@ -42,21 +42,21 @@ class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRep
         }
     }
 
-    fun addPlayer(player: Players) = viewModelScope.launch {
+    fun addPlayer(player: Player) = viewModelScope.launch {
 
         playerRepository.addPlayer(player.copy(
             game = _game.value.id
         ))
     }
-    fun removePlayer(player: Players) = viewModelScope.launch {
+    fun removePlayer(player: Player) = viewModelScope.launch {
         playerRepository.deletePlayer(player)
     }
 
-    fun updatePlayer(player: Players) = viewModelScope.launch {
+    fun updatePlayer(player: Player) = viewModelScope.launch {
         playerRepository.updatePlayer(player)
     }
 
-    fun newGame(game: Games) = viewModelScope.launch {
+    fun newGame(game: Game) = viewModelScope.launch {
         gameRepository.addGame(game)
     }
 

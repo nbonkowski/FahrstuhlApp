@@ -6,18 +6,18 @@ import java.util.*
 
 @Dao
 interface RoundPlayerDao {
-    @Query("SELECT * FROM RoundPlayer")
-    fun getAllRoundPlayers(): Flow<List<RoundPlayer>>
+    @Query("SELECT * FROM RoundPlayerCrossRef")
+    fun getAllRoundPlayers(): Flow<List<RoundPlayerCrossRef>>
 
-    @Query("SELECT * FROM ROUNDPLAYER where round = :roundid")
-    fun getRoundPlayerFromRoundId(roundid : UUID):Flow<List<RoundPlayer>>
+    @Query("SELECT * FROM RoundPlayerCrossRef where round = :roundid")
+    fun getRoundPlayerFromRoundId(roundid : UUID):Flow<List<RoundPlayerCrossRef>>
 
-    @Query("SELECT * FROM ROUNDPLAYER where player = :playerid")
-    fun getRoundPlayerFromPlayerId(playerid : UUID):Flow<List<RoundPlayer>>
+    @Query("SELECT * FROM RoundPlayerCrossRef where player = :playerid")
+    fun getRoundPlayerFromPlayerId(playerid : UUID):Flow<List<RoundPlayerCrossRef>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertRoundPlayer(roundPlayer: RoundPlayer)
+    suspend fun insertRoundPlayer(roundPlayer: RoundPlayerCrossRef)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateRoundPlayer(roundPlayer: RoundPlayer)
+    suspend fun updateRoundPlayer(roundPlayer: RoundPlayerCrossRef)
 }
