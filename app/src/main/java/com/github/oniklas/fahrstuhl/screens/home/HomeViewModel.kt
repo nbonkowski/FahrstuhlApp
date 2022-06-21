@@ -1,5 +1,6 @@
 package com.github.oniklas.fahrstuhl.screens.home
 
+import androidx.compose.material.FloatingActionButton
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.oniklas.fahrstuhl.data.Game
@@ -21,6 +22,7 @@ class HomeViewModel @Inject constructor(private val repository: GameRepository):
         viewModelScope.launch(Dispatchers.IO) {
 //            Log.d("DBCall", HomeViewModel::class.simpleName.toString() + "remove All Game")
 //           repository.removeAllGames()
+
             repository.getAllGames().distinctUntilChanged().collect {
                 if (it.isEmpty()) {
                     isFirst = true

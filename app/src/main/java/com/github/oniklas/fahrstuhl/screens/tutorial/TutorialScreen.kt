@@ -25,8 +25,8 @@ fun TutorialScreen(
     }},
     bottomBar = { BottomAppBar{
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-            FloatingActionButton(onClick = { navController.navigate(FahrstuhlScreens.LobbyScreen.name)}, shape = RoundedCornerShape(5.dp), modifier = Modifier.padding(10.dp),  backgroundColor = MaterialTheme.colors.secondary) {
-                Text(modifier = Modifier.padding(5.dp), text = "New Game")
+            FloatingActionButton(onClick = { navController.navigate(FahrstuhlScreens.HomeScreen.name)}, shape = RoundedCornerShape(5.dp), modifier = Modifier.padding(10.dp),  backgroundColor = MaterialTheme.colors.secondary) {
+                Text(modifier = Modifier.padding(5.dp), text = "Ok")
             }
         }
     }}
