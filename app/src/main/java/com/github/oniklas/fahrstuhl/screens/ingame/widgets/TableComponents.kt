@@ -1,5 +1,6 @@
 package com.github.oniklas.fahrstuhl.screens.ingame.widgets
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -65,11 +66,12 @@ fun InputField(
             textAlign = TextAlign.Center
         ),
         maxLines = 1,
-        keyboardOptions = KeyboardOptions.Default.copy(
-        keyboardType = KeyboardType.Number,
-        imeAction =  ImeAction.Done
+        keyboardOptions = KeyboardOptions(autoCorrect = false,
+            keyboardType = KeyboardType.Number,
+            imeAction =  ImeAction.Done
     ),
         keyboardActions = KeyboardActions(onDone = {
+            Log.d("imeAction","onDone")
             onImeAction()
             keyboardController?.hide()
             focusManager.clearFocus()

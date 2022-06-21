@@ -28,9 +28,9 @@ interface GameDao {
 
     @Transaction
     @Query("SELECT * FROM Game WHERE id = :game")
-    suspend fun getGameWithPlayers(game: UUID): List<GameWithPlayers>
+    fun getGameWithPlayers(game: UUID): Flow<GameWithPlayers>
 
     @Transaction
     @Query("SELECT * FROM Game WHERE id = :game")
-    suspend fun getGameWithRounds(game: UUID): List<GameWithRounds>
+    fun getGameWithRounds(game: UUID): Flow<GameWithRounds>
 }

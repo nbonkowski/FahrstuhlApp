@@ -1,6 +1,7 @@
 package com.github.oniklas.fahrstuhl.screens.ingame
 
 
+import android.util.Log
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
@@ -21,6 +22,7 @@ import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.math.abs
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -114,6 +116,11 @@ fun InGameScreen(
                             var round_prediction by remember {
                                 mutableStateOf(round.prediction.toString())
                             }
+
+                            var round_trick by remember {
+                                mutableStateOf(round.trick.toString())
+                            }
+
                             InputField(text = round_prediction, onTextChange = {
                                 if (it.all { char ->
                                         char.isDigit()
@@ -121,13 +128,13 @@ fun InGameScreen(
                             }) {
                                 updateRoundPlayer(
                                     round.copy(
-                                        prediction = round_prediction.toInt()
+                                        prediction = round_prediction.toInt(),
+                                        trick = round_trick.toInt(),
+                                        points = getPoints(round_prediction.toInt(), round_trick.toInt())
                                     )
                                 )
                             }
-                            var round_trick by remember {
-                                mutableStateOf(round.trick.toString())
-                            }
+
 
                             /*Input field for Trick */
                             InputField(text = round_trick, onTextChange = {
@@ -135,16 +142,19 @@ fun InGameScreen(
                                         char.isDigit()
                                     }) round_trick = it
                             }) {
+                                Log.d("imeAction", "imeAction")
                                 updateRoundPlayer(
                                     round.copy(
-                                        trick = round_trick.toInt()
+                                        prediction = round_prediction.toInt(),
+                                        trick = round_trick.toInt(),
+                                        points = getPoints(round_prediction.toInt(), round_trick.toInt())
                                     )
                                 )
                             }
                         }
                     }
                     DescriptionField(
-                        text = playerPoints[player.id].toString(),
+                        text = player.points.toString(),//playerPoints[player.id].toString(),
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -158,6 +168,15 @@ fun InGameScreen(
             Text(modifier = Modifier.padding(10.dp),text = "Next Round")
         }}
     )
+}
+
+fun getPoints(prediction: Int, trick: Int): Int {
+    var points: Int  = 0
+    if(prediction - trick == 0 ){
+        points += if (prediction != 0){ prediction * 5}else{5}
+
+    }else {points -= abs(prediction - trick) * 2}
+    return points
 }
 
 //@Preview(showBackground = true)

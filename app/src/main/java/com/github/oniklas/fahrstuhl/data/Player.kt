@@ -19,4 +19,6 @@ data class Player(
     val game: UUID,
     @ColumnInfo
     val name: String,
+    @ColumnInfo
+    val points: Int = 0,
 )

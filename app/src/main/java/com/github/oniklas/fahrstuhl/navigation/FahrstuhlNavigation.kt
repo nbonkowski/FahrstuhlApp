@@ -25,7 +25,7 @@ fun FahrstuhlNavigation(){
         composable(FahrstuhlScreens.HomeScreen.name){
             val homeViewModel = hiltViewModel<HomeViewModel>()
             val game : Game = homeViewModel.game.collectAsState().value
-            val firstTime : Boolean  = true//homeViewModel.isFirst
+            val firstTime : Boolean  = homeViewModel.isFirst
             if(firstTime){
                 TutorialScreen(navController)
             }else {

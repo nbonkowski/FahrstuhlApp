@@ -30,5 +30,5 @@ interface PlayerDao {
 
     @Transaction
     @Query("SELECT * FROM Player WHERE id = :player")
-    suspend fun getPlayerWithRounds(player: UUID): List<PlayerWithRounds>
+    suspend fun getPlayerWithRounds(player: UUID): PlayerWithRounds
 }

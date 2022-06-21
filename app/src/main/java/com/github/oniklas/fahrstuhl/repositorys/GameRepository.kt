@@ -20,6 +20,6 @@ class GameRepository @Inject constructor(private  val gameDao: GameDao) {
     suspend fun addGame(game:Game) = gameDao.insertGame(game)
     suspend fun removeAllGames() = gameDao.removeAllGames()
 
-    suspend fun getGameWithPlayers(game: UUID): List<GameWithPlayers> = gameDao.getGameWithPlayers(game)
-    suspend fun getGameWithRounds(game: UUID) : List<GameWithRounds> = gameDao.getGameWithRounds(game)
+    fun getGameWithPlayers(game: UUID): Flow<GameWithPlayers> = gameDao.getGameWithPlayers(game)
+    fun getGameWithRounds(game: UUID) : Flow<GameWithRounds> = gameDao.getGameWithRounds(game)
 }

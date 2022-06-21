@@ -31,4 +31,6 @@ data class RoundPlayerCrossRef(
     val prediction: Int = 0,
     @ColumnInfo
     val trick : Int = 0,
+    @ColumnInfo
+    val points : Int = 5,//prediction 0 and trick 0 = 5 points
 )

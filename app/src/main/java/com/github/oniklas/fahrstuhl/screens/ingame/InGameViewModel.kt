@@ -1,5 +1,6 @@
 package com.github.oniklas.fahrstuhl.screens.ingame
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.oniklas.fahrstuhl.data.Game
@@ -45,57 +46,70 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
         runBlocking(Dispatchers.IO) {
             _game.value = gameRepository.getLastGame().first()
             _playerList.value = playerRepository.getAllPlayersFromGameId(_game.value.id).first()
-            _rounds.value =  roundRepository.getRoundsOfGame(_game.value.id).first()
+            _rounds.value = roundRepository.getRoundsOfGame(_game.value.id).first()
 
-            if(_rounds.value.isNullOrEmpty()){
-                    nextRound()
+            if (_rounds.value.isNullOrEmpty()) {
+                nextRound()
 
             }
 //            _playerList.value.forEach { player ->
 //                _roundPlayers.value[player.id] = roundRepository.getAllRoundsOfPlayer(player.id).first()
 //            }
         }
-    // subscribe to Flow events
-        viewModelScope.launch(Dispatchers.IO){
+        // subscribe to Flow events
+        viewModelScope.launch(Dispatchers.IO) {
             launch(Dispatchers.IO) {
 //                roundRepository.removeRounds()
                 gameRepository.getLastGame()
                     .distinctUntilChanged().collect {
-                    _game.value = it
-                }
+                        _game.value = it
+                    }
 
             }
-           launch(Dispatchers.IO) {
-                playerRepository.getAllPlayersFromGameId(_game.value.id).distinctUntilChanged()
+            launch(Dispatchers.IO) {
+                gameRepository.getGameWithPlayers(_game.value.id).distinctUntilChanged()
                     .collect {
-                        _playerList.value = it
-
-                    }
-                }
-            launch(Dispatchers.IO) {
-
-                roundRepository.getRoundsOfGame(_game.value.id).distinctUntilChanged().collect {
-                        _rounds.value = it
+                        _playerList.value = it.players
 
                     }
             }
             launch(Dispatchers.IO) {
-                        roundRepository.getAllRoundPlayer().distinctUntilChanged().collect{
-                            _playerList.value.forEach { player ->
-                                _roundPlayers.value[player.id] = playerRepository.getPlayerWithRounds(player.id).last().roundPlayerCrossRef
-                                var points = 0
-                                _roundPlayers.value[player.id]!!.forEach{
-                                     if(abs(it.prediction - it.trick) == 0 ){
-                                         points += if (it.prediction > 0){ it.prediction * 5}else{5}
 
-                                    }else {points -= abs(it.prediction - it.trick) * 2}
-                                }
-                                _playerPoints.value[player.id] = points
+                gameRepository.getGameWithRounds(_game.value.id).distinctUntilChanged().collect {
+                    _rounds.value = it.rounds
+
+                }
+            }
+            launch(Dispatchers.IO) {
+                roundRepository.getAllRoundPlayer().distinctUntilChanged().collect {
+
+                    _playerList.value.forEach { player ->
+                        _roundPlayers.value[player.id] =
+                            playerRepository.getPlayerWithRounds(player.id).roundPlayerCrossRef
+                            var points = 0
+                            _roundPlayers.value[player.id]?.forEach{
+                                    points += it.points
                             }
-                        }
+                            playerRepository.updatePlayer(
+                                player.copy(
+                                    points = points))
+                    }
+
+//                    calcPoints()
+                }
             }
         }
     }
+
+//        private fun calcPoints(){
+//            _playerList.value.forEach { player ->
+//                var points = 0
+//                _roundPlayers.value[player.id]!!.forEach{
+//                    points += it.points
+//                }
+//                _playerPoints.value[player.id] = points
+//            }
+//            }
 
 
     fun nextRound() = viewModelScope.launch{
@@ -103,12 +117,29 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
         roundRepository.insertRound(newRound)
 
         _playerList.value.forEach { player ->
-            roundRepository.addRoundPlayer(RoundPlayerCrossRef(player = player.id, round = newRound.id , prediction = 0, trick = 0 ))
+            addRoundPlayer(player = player, round = newRound)
         }
     }
 
     fun updateRoundPlayer(roundPlayer: RoundPlayerCrossRef) = viewModelScope.launch {
-            roundRepository.updateRoundPlayer(roundPlayer)
+        roundRepository.updateRoundPlayer(roundPlayer.copy(
+
+        ))
+        _playerList.value.forEach {
+            if (it.id == roundPlayer.player){
+                var points = 0
+                _roundPlayers.value[it.id]?.forEach{
+                    if (it.round != roundPlayer.round){
+                        Log.d("Points", "2 " + points.toString())
+                        points += it.points
+                        Log.d("Points", points.toString())
+                    }
+                }
+                playerRepository.updatePlayer(
+                it.copy(
+                points = roundPlayer.points + points
+        ))}
+        }
         }
 
     fun addRound() = viewModelScope.launch {
@@ -120,6 +151,17 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
 
     fun addRoundPlayer(round : Round, player: Player)= viewModelScope.launch {
         roundRepository.addRoundPlayer(RoundPlayerCrossRef( round = round.id, player = player.id))
+        playerRepository.updatePlayer(player.copy(
+            points = player.points + 5
+        ))
     }
 
+    private fun getPoints(prediction: Int, trick: Int): Int {
+        var points: Int  = 0
+        if(prediction - trick == 0 ){
+            points += if (prediction != 0){ prediction * 5}else{5}
+
+        }else {points -= abs(prediction - trick) * 2}
+        return points
+    }
 }
