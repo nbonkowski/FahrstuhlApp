@@ -33,4 +33,8 @@ interface GameDao {
     @Transaction
     @Query("SELECT * FROM Game WHERE id = :game")
     fun getGameWithRounds(game: UUID): Flow<GameWithRounds>
+
+    @Transaction
+    @Query("SELECT * FROM Game  ORDER BY ID DESC LIMIT 1")
+    fun getLastGameWithPlayers(): Flow<GameWithPlayers>
 }

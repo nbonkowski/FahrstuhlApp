@@ -14,6 +14,8 @@ import com.github.oniklas.fahrstuhl.screens.ingame.InGameViewModel
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyScreen
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyViewModel
 import com.github.oniklas.fahrstuhl.screens.tutorial.TutorialScreen
+import com.github.oniklas.fahrstuhl.screens.win.WinScreen
+import com.github.oniklas.fahrstuhl.screens.win.WinViewModel
 
 @Composable
 fun FahrstuhlNavigation(){
@@ -49,6 +51,7 @@ fun FahrstuhlNavigation(){
         composable(FahrstuhlScreens.InGameScreen.name){
         val inGameViewModel = hiltViewModel<InGameViewModel>()
             InGameScreen(
+                navController = navController,
                 players = inGameViewModel.playerList.collectAsState().value,
                 rounds = inGameViewModel.rounds.collectAsState().value,
                 roundPlayers = inGameViewModel.roundPlayers.collectAsState().value,
@@ -78,6 +81,11 @@ fun FahrstuhlNavigation(){
 
         composable(FahrstuhlScreens.TutorialScreen.name){
             TutorialScreen(navController)
+        }
+        
+        composable(FahrstuhlScreens.WinningScreen.name){
+            val winViewModel = hiltViewModel<WinViewModel>()
+            WinScreen(navController = navController, playerList = winViewModel.playerList.collectAsState().value )
         }
     }
 }

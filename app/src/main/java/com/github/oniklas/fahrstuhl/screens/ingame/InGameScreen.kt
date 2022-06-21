@@ -14,10 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.github.oniklas.fahrstuhl.R
 import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.data.RoundPlayerCrossRef
 import com.github.oniklas.fahrstuhl.data.Round
+import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
 import java.util.*
@@ -27,6 +30,7 @@ import kotlin.math.abs
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
 fun InGameScreen(
+    navController: NavHostController,
     players: List<Player>,
     rounds: List<Round>,
     roundPlayers: HashMap<UUID,List<RoundPlayerCrossRef>>,
@@ -164,9 +168,18 @@ fun InGameScreen(
 
     },
         floatingActionButtonPosition = FabPosition.End,
-        floatingActionButton = {FloatingActionButton(  onClick = {nextRound()}) {
-            Text(modifier = Modifier.padding(10.dp),text = "Next Round")
-        }}
+        floatingActionButton ={if (rounds.size < 12 + players.size) {
+
+                FloatingActionButton(onClick = { nextRound() }) {
+                    Text(modifier = Modifier.padding(10.dp), text = "Next Round")
+                }
+            } else{
+            FloatingActionButton(onClick = { navController.navigate(FahrstuhlScreens.WinningScreen.name) }) {
+                Text(modifier = Modifier.padding(10.dp), text = "End")
+            }
+        }
+        }
+
     )
 }
 

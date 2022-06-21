@@ -17,7 +17,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRepository, private val gameRepository: GameRepository): ViewModel() {
+class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRepository,
+                                         private val gameRepository: GameRepository): ViewModel() {
     private  var _game  = MutableStateFlow<Game>(Game())
     private var isInit = false
     val game = _game.asStateFlow()

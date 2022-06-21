@@ -22,4 +22,5 @@ class GameRepository @Inject constructor(private  val gameDao: GameDao) {
 
     fun getGameWithPlayers(game: UUID): Flow<GameWithPlayers> = gameDao.getGameWithPlayers(game)
     fun getGameWithRounds(game: UUID) : Flow<GameWithRounds> = gameDao.getGameWithRounds(game)
+    fun getLastGameWithPlayers() : Flow<GameWithPlayers> = gameDao.getLastGameWithPlayers()
 }
