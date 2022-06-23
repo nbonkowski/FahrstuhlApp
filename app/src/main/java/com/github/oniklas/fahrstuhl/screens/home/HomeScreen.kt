@@ -3,6 +3,7 @@ package com.github.oniklas.fahrstuhl.screens.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -23,8 +24,8 @@ fun HomeScreen(navController: NavHostController, toContinue : Boolean = false, f
     Scaffold(
         topBar = {
             Row (Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
-                Button( onClick = {navController.navigate(FahrstuhlScreens.TutorialScreen.name)}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent), elevation = null) {
-                    Icon(imageVector = Icons.Default.Info, contentDescription = "info", tint = Color.Black)
+                Button(modifier = Modifier.padding(5.dp), onClick = {navController.navigate(FahrstuhlScreens.TutorialScreen.name)}, colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent), shape = CircleShape, elevation = null) {
+                    Icon(imageVector = Icons.Default.Info, contentDescription = "info", tint = MaterialTheme.colors.primaryVariant)
                 }
             }
 

@@ -1,6 +1,7 @@
 package com.github.oniklas.fahrstuhl.screens.ingame.widgets
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -28,21 +29,13 @@ fun DescriptionField(
     fontSize: TextUnit = MaterialTheme.typography.body2.fontSize,
     padding : Dp = 4.dp
 ){
-    Surface(modifier = modifier
-        .fillMaxWidth()
-        ) {
-
-        Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
-
+    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
        Text(text = if (text.length> maxLetters){text.slice(0 until maxLetters)}else{text},fontSize = fontSize ,fontWeight = MaterialTheme.typography.body2.fontWeight,   textAlign = TextAlign.Center, modifier = Modifier
            .fillMaxWidth()
            .padding(padding))
 
 //        Divider(color = Color.Green, modifier = Modifier.fillMaxHeight().width(1.dp))
-        }
     }
-
-
     Divider(color = borderColor, thickness = 1.dp )
 
 }

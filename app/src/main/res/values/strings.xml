@@ -16,4 +16,5 @@
     <string name="prediction_description">Prediction</string>
     <string name="trick_description">Stich</string>
     <string name="points_description">Punkte</string>
+    <string name="back_to_menu">Zurück zum Menü</string>
 </resources>

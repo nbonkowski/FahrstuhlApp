@@ -21,7 +21,7 @@ fun TutorialScreen(
         TopAppBar(modifier = Modifier, title = {Text(text = "Tutorial")}, backgroundColor = MaterialTheme.colors.primary)
     },
     content = { Card(Modifier.padding(10.dp)) {
-        Text(modifier = Modifier.fillMaxSize(),text = stringResource(R.string.rules))
+        Text(modifier = Modifier.fillMaxSize().padding(10.dp),text = stringResource(R.string.rules))
     }},
     bottomBar = { BottomAppBar{
         Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {

@@ -26,6 +26,7 @@ import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.abs
+import kotlin.math.round
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -44,7 +45,7 @@ fun InGameScreen(
     fun roundDescriptionItem(text: String) {
         DescriptionField(
         text =  text,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().background(Color.Transparent),
         fontSize = 10.sp,
         padding = 0.dp
     )
@@ -59,12 +60,14 @@ fun InGameScreen(
                     Modifier
                         .width(intrinsicSize = IntrinsicSize.Max)
                         .height(intrinsicSize = IntrinsicSize.Min)
+                        .background(MaterialTheme.colors.surface)
                 ) {
                     DescriptionField(
                         text = stringResource(R.string.name_description),
                         modifier = Modifier.fillMaxWidth()
                     )
                     for (round in rounds) {
+
                         roundDescriptionItem(
                             text = "Round " + round.round.toString(),
                         )
@@ -75,6 +78,9 @@ fun InGameScreen(
                         DescriptionField(
                             text = stringResource(R.string.trick_description),
                             modifier = Modifier.fillMaxWidth()
+                        )
+                        roundDescriptionItem(
+                            text = "Points",
                         )
                     }
                     DescriptionField(
@@ -94,6 +100,7 @@ fun InGameScreen(
                     Modifier
                         .width(intrinsicSize = IntrinsicSize.Max)
                         .defaultMinSize(minWidth = 80.dp, 10.dp)
+                        .background(if (index%2 ==0){MaterialTheme.colors.background}else{MaterialTheme.colors.surface})
                 ) {
                     DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth())
                     if (!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()) {
@@ -155,7 +162,11 @@ fun InGameScreen(
                                     )
                                 )
                             }
+                            roundDescriptionItem(
+                                text = round.points.toString(),
+                            )
                         }
+
                     }
                     DescriptionField(
                         text = player.points.toString(),//playerPoints[player.id].toString(),
