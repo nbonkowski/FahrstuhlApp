@@ -43,7 +43,7 @@ fun FahrstuhlNavigation(){
                 navController = navController,
                 game= lobbyViewModel.game.collectAsState().value,
                 onAddPlayer = { lobbyViewModel.addPlayer(it)},
-                newGame = { lobbyViewModel.newGame(it)},
+                newGame = { lobbyViewModel.newGame()},
                 onRemovePlayer = {lobbyViewModel.removePlayer(it)}
             )
         }

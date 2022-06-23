@@ -28,19 +28,20 @@ class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRep
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            gameRepository.getLastGame().distinctUntilChanged().collect {
-                _game = MutableStateFlow<Game>(it) //TODO change and test _game.value = it
-                isInit = true
-            }
-            if (!isInit){
-                gameRepository.addGame(_game.value)
-            }
+            gameRepository.addGame(_game.value)
+//            gameRepository.getLastGame().distinctUntilChanged().collect {
+//                _game = MutableStateFlow<Game>(it) //TODO change and test _game.value = it
+//                isInit = true
+//            }
+//            if (!isInit){
+//                gameRepository.addGame(_game.value)
+//            }
         }
-        viewModelScope.launch(Dispatchers.IO) {
-            playerRepository.getAllPlayers().distinctUntilChanged().collect {
-                    _playerList.value = it
-            }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            playerRepository.getAllPlayers().distinctUntilChanged().collect {
+//                    _playerList.value = it
+//            }
+//        }
     }
 
     fun addPlayer(player: Player) = viewModelScope.launch {
@@ -57,8 +58,8 @@ class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRep
         playerRepository.updatePlayer(player)
     }
 
-    fun newGame(game: Game) = viewModelScope.launch {
-        gameRepository.addGame(game)
+    fun newGame() = viewModelScope.launch {
+        gameRepository.addGame(_game.value)
     }
 
 }

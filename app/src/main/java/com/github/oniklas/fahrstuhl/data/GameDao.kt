@@ -11,7 +11,7 @@ interface GameDao {
     @Query("SELECT * FROM Game")
     fun getAllGames(): Flow<List<Game>>
 
-    @Query("SELECT * FROM Game ORDER BY ID DESC LIMIT 1")
+    @Query("SELECT * FROM Game ORDER BY round ASC LIMIT 1")
     fun getLastGame(): Flow<Game>
 
     @Query("SELECT * FROM GAME WHERE ID = :id")
@@ -35,6 +35,6 @@ interface GameDao {
     fun getGameWithRounds(game: UUID): Flow<GameWithRounds>
 
     @Transaction
-    @Query("SELECT * FROM Game  ORDER BY ID DESC LIMIT 1")
-    fun getLastGameWithPlayers(): Flow<GameWithPlayers>
+    @Query("SELECT * FROM Game")
+    fun getAllGameWithPlayers(): Flow<List<GameWithPlayers>>
 }

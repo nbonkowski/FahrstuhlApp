@@ -44,7 +44,7 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
     init {
         //initialising States
         runBlocking(Dispatchers.IO) {
-            _game.value = gameRepository.getLastGame().first()
+            _game.value = gameRepository.getAllGames().first().last()
             _playerList.value = playerRepository.getAllPlayersFromGameId(_game.value.id).first()
             _rounds.value = roundRepository.getRoundsOfGame(_game.value.id).first()
 
@@ -60,9 +60,9 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
         viewModelScope.launch(Dispatchers.IO) {
             launch(Dispatchers.IO) {
 //                roundRepository.removeRounds()
-                gameRepository.getLastGame()
+                gameRepository.getAllGames()
                     .distinctUntilChanged().collect {
-                        _game.value = it
+                        _game.value = it.last()
                     }
 
             }
@@ -113,7 +113,7 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
 
 
     fun nextRound() = viewModelScope.launch{
-        val newRound  = Round(game = _game.value.id, firstPlayer = _playerList.value[_rounds.value.size%_playerList.value.size].id, round = _rounds.value.size)
+        val newRound  = Round(game = _game.value.id, firstPlayer = if(_rounds.value.isNullOrEmpty()){_playerList.value[0].id} else{ _playerList.value[_rounds.value.size%_playerList.value.size].id}, round = _rounds.value.size)
         roundRepository.insertRound(newRound)
 
         _playerList.value.forEach { player ->

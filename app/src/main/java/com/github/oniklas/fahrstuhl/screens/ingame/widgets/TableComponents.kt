@@ -29,14 +29,17 @@ fun DescriptionField(
     fontSize: TextUnit = MaterialTheme.typography.body2.fontSize,
     padding : Dp = 4.dp
 ){
-    Row(Modifier.fillMaxWidth().height(IntrinsicSize.Max)) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Max)) {
        Text(text = if (text.length> maxLetters){text.slice(0 until maxLetters)}else{text},fontSize = fontSize ,fontWeight = MaterialTheme.typography.body2.fontWeight,   textAlign = TextAlign.Center, modifier = Modifier
            .fillMaxWidth()
            .padding(padding))
 
 //        Divider(color = Color.Green, modifier = Modifier.fillMaxHeight().width(1.dp))
     }
-    Divider(color = borderColor, thickness = 1.dp )
+   ItemDivider()
 
 }
 
@@ -56,7 +59,8 @@ fun InputField(
 
     BasicTextField(value = text, onValueChange = onTextChange,
         textStyle = MaterialTheme.typography.body2.copy(
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = MaterialTheme.colors.onBackground
         ),
         maxLines = 1,
         keyboardOptions = KeyboardOptions(autoCorrect = false,
@@ -72,6 +76,11 @@ fun InputField(
         modifier = modifier
             .padding(4.dp)
     )
-        Divider(color = borderColor, thickness = 1.dp )
+       ItemDivider()
 }
 //}
+
+@Composable
+fun ItemDivider(){
+    Divider(color = MaterialTheme.colors.onBackground, thickness = 1.dp )
+}

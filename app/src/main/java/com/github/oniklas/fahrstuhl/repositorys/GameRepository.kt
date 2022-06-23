@@ -5,9 +5,7 @@ import com.github.oniklas.fahrstuhl.data.Game
 import com.github.oniklas.fahrstuhl.data.relationships.GameWithPlayers
 import com.github.oniklas.fahrstuhl.data.relationships.GameWithRounds
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import java.util.*
 import javax.inject.Inject
 
@@ -22,5 +20,5 @@ class GameRepository @Inject constructor(private  val gameDao: GameDao) {
 
     fun getGameWithPlayers(game: UUID): Flow<GameWithPlayers> = gameDao.getGameWithPlayers(game)
     fun getGameWithRounds(game: UUID) : Flow<GameWithRounds> = gameDao.getGameWithRounds(game)
-    fun getLastGameWithPlayers() : Flow<GameWithPlayers> = gameDao.getLastGameWithPlayers()
+    fun getAllGamesWithPlayers() : Flow<List<GameWithPlayers>> = gameDao.getAllGameWithPlayers()
 }

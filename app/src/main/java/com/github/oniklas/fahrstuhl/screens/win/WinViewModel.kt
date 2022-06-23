@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.oniklas.fahrstuhl.data.Game
 import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.repositorys.GameRepository
-import com.github.oniklas.fahrstuhl.repositorys.PlayerRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,9 +24,9 @@ class WinViewModel @Inject constructor(private val repository: GameRepository): 
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getLastGameWithPlayers().distinctUntilChanged().collect {
-                _game.value = it.game
-                _playerList.value = it.players.sortedByDescending { it.points }
+            repository.getAllGamesWithPlayers().distinctUntilChanged().collect {
+                _game.value = it.last().game
+                _playerList.value = it.last().players.sortedByDescending { it.points }
             }
 
         }

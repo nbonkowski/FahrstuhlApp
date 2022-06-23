@@ -2,10 +2,11 @@ package com.github.oniklas.fahrstuhl.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity
+@Entity//(indices = [Index(value = ["id"], unique = true)])
 data class Game(
     @PrimaryKey
     val id: UUID  = UUID.randomUUID(),

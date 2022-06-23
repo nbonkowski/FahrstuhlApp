@@ -1,5 +1,6 @@
 package com.github.oniklas.fahrstuhl.screens.lobby
 
+import androidx.compose.foundation.background
 import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.screens.lobby.widgets.lobbyItem
 import com.github.oniklas.fahrstuhl.shared.NameInput
@@ -7,9 +8,7 @@ import com.github.oniklas.fahrstuhl.shared.NameInput
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +25,7 @@ fun LobbyScreen(
     players: List<Player> = emptyList(),
     navController: NavHostController,
     onAddPlayer: (Player) -> Unit,
-    newGame: (Game) -> Unit,
+    newGame: () -> Unit,
     onRemovePlayer: (Player) -> Unit
 ){
     var name by remember {
@@ -42,11 +41,11 @@ fun LobbyScreen(
             name =""
         }
     }
-
+    Card( Modifier
+        .fillMaxSize()
+        .background(MaterialTheme.colors.background)) {
     Column(
-        Modifier
-            .fillMaxWidth()
-            .padding(10.dp)) {
+       Modifier.padding(10.dp)) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
@@ -82,7 +81,7 @@ fun LobbyScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Button(
-                onClick = {  player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.InGameScreen.name) },
+                onClick = { player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.InGameScreen.name) },
                 modifier = Modifier.padding(8.dp),
                 enabled = !player_list.isNullOrEmpty() || !players.isNullOrEmpty()
             ) {
@@ -91,7 +90,7 @@ fun LobbyScreen(
         }
 
     }
-
+    }
 }
 
 

@@ -3,10 +3,7 @@ package com.github.oniklas.fahrstuhl.screens.win
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.Composable
@@ -28,8 +25,11 @@ fun WinScreen(
     navController: NavHostController,
     playerList: List<Player>
 ){
+    Card(modifier = Modifier.fillMaxSize()) {
+
+
     Column(modifier = Modifier
-        .padding(80.dp).fillMaxSize(),
+        .padding(80.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally) {
         Card(modifier = Modifier
@@ -38,7 +38,7 @@ fun WinScreen(
                 item {
                     Icon(modifier = Modifier
                         .padding(10.dp)
-                        .fillMaxWidth(), imageVector = Icons.Default.ThumbUp, contentDescription = "#1", tint = Color.DarkGray)
+                        .fillMaxWidth(), imageVector = Icons.Default.ThumbUp, contentDescription = "#1", tint = MaterialTheme.colors.onBackground)
                 }
                 itemsIndexed(playerList) { index, player: Player ->
                     Text(text = "${player.name} ist ${index + 1} mit ${player.points} Punkten", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
@@ -50,5 +50,6 @@ fun WinScreen(
                 }
             }
         }
+    }
     }
 }

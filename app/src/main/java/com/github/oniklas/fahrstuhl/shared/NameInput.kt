@@ -2,6 +2,7 @@ package com.github.oniklas.fahrstuhl.shared
 
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -25,6 +26,7 @@ fun NameInput(
     val keyboardController = LocalSoftwareKeyboardController.current
     TextField(value = text, onValueChange = onTextChange,
         colors = TextFieldDefaults.textFieldColors(
+            textColor = MaterialTheme.colors.onBackground,
             backgroundColor = Color.Transparent
         ),
         maxLines = maxLine,
