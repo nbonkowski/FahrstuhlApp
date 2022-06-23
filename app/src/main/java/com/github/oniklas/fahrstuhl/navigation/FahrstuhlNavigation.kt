@@ -63,7 +63,8 @@ fun FahrstuhlNavigation(){
                     inGameViewModel.addRoundPlayer(round,player)},
                 updateRoundPlayer ={
                     inGameViewModel.updateRoundPlayer(it)
-                }
+                },
+                endGame = {inGameViewModel.endGame()}
             )
             //Test Screen
 //            InGameScreen(players =

@@ -39,6 +39,7 @@ fun InGameScreen(
     addRoundPlayer: (Round, Player) -> Unit,
     nextRound: () ->Unit,
     updateRoundPlayer: (RoundPlayerCrossRef) ->Unit,
+    endGame: () -> Unit,
 )
 {
     @Composable
@@ -185,7 +186,7 @@ fun InGameScreen(
                     Text(modifier = Modifier.padding(10.dp), text = "Next Round")
                 }
             } else{
-            FloatingActionButton(onClick = { navController.navigate(FahrstuhlScreens.WinningScreen.name) }) {
+            FloatingActionButton(onClick = { endGame();navController.navigate(FahrstuhlScreens.WinningScreen.name) }) {
                 Text(modifier = Modifier.padding(10.dp), text = "End")
             }
         }

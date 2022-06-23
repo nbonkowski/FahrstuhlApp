@@ -26,23 +26,23 @@ class LobbyViewModel @Inject constructor(private val playerRepository: PlayerRep
     private var _playerList = MutableStateFlow<List<Player>>(emptyList())
     val playerList = _playerList.asStateFlow()
 
-    init {
-        viewModelScope.launch(Dispatchers.IO) {
-            gameRepository.addGame(_game.value)
-//            gameRepository.getLastGame().distinctUntilChanged().collect {
-//                _game = MutableStateFlow<Game>(it) //TODO change and test _game.value = it
-//                isInit = true
-//            }
-//            if (!isInit){
-//                gameRepository.addGame(_game.value)
-//            }
-        }
+//    init {
 //        viewModelScope.launch(Dispatchers.IO) {
-//            playerRepository.getAllPlayers().distinctUntilChanged().collect {
-//                    _playerList.value = it
-//            }
+//            gameRepository.addGame(_game.value)
+////            gameRepository.getLastGame().distinctUntilChanged().collect {
+////                _game = MutableStateFlow<Game>(it)
+// //                isInit = true
+////            }
+////            if (!isInit){
+////                gameRepository.addGame(_game.value)
+////            }
 //        }
-    }
+////        viewModelScope.launch(Dispatchers.IO) {
+////            playerRepository.getAllPlayers().distinctUntilChanged().collect {
+////                    _playerList.value = it
+////            }
+////        }
+//    }
 
     fun addPlayer(player: Player) = viewModelScope.launch {
 

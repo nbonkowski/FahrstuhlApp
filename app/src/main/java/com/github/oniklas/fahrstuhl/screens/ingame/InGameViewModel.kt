@@ -164,4 +164,12 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
         }else {points -= abs(prediction - trick) * 2}
         return points
     }
+
+    fun endGame() {
+        viewModelScope.launch {
+            gameRepository.updateGame(_game.value.copy(
+                finished = true
+            ))
+        }
+    }
 }
