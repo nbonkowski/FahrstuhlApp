@@ -23,6 +23,7 @@ import com.github.oniklas.fahrstuhl.data.Round
 import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
 import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
+import com.github.oniklas.fahrstuhl.screens.ingame.widgets.ItemDivider
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.abs
@@ -46,7 +47,9 @@ fun InGameScreen(
     fun roundDescriptionItem(text: String) {
         DescriptionField(
         text =  text,
-        modifier = Modifier.fillMaxWidth().background(Color.Transparent),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent),
         fontSize = 10.sp,
         padding = 0.dp
     )
@@ -68,32 +71,50 @@ fun InGameScreen(
                         modifier = Modifier.fillMaxWidth()
                     )
                     for (round in rounds) {
+                        Column(
+                            modifier = Modifier.background(
+                                if (round.round % 2 == 0) {
+                                    MaterialTheme.colors.background
+                                } else {
+                                    MaterialTheme.colors.surface
+                                }
+                            )
+                        ) {
 
-                        roundDescriptionItem(
-                            text = "Round " + round.round.toString(),
-                        )
+                            roundDescriptionItem(
+                                text = "Round " + round.round.toString(),
+                            )
+                            DescriptionField(
+                                text = stringResource(R.string.prediction_description),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            DescriptionField(
+                                text = stringResource(R.string.trick_description),
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            roundDescriptionItem(
+                                text = "Points",
+                            )
+                        }
+
+                    }
+                    Row(
+                        modifier = Modifier
+                            .background(
+                                if (rounds.size % 2 == 0) {
+                                    MaterialTheme.colors.background
+                                } else {
+                                    MaterialTheme.colors.surface
+                                }
+                            )
+                    ) {
                         DescriptionField(
-                            text = stringResource(R.string.prediction_description),
+                            text = stringResource(R.string.points_description),
                             modifier = Modifier.fillMaxWidth()
-                        )
-                        DescriptionField(
-                            text = stringResource(R.string.trick_description),
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        roundDescriptionItem(
-                            text = "Points",
                         )
                     }
-                    DescriptionField(
-                        text = stringResource(R.string.points_description),
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                    ItemDivider()
                 }
-                Divider(
-                    color = Color.Black, modifier = Modifier
-                        .fillParentMaxHeight()
-                        .width(1.dp)
-                )
             }
 
             itemsIndexed(players) { index, player ->
@@ -101,12 +122,20 @@ fun InGameScreen(
                     Modifier
                         .width(intrinsicSize = IntrinsicSize.Max)
                         .defaultMinSize(minWidth = 80.dp, 10.dp)
-                        .background(if (index%2 ==0){MaterialTheme.colors.background}else{MaterialTheme.colors.surface})
+                    //   Uncomment to mark column in different colors
+//                        .background(
+//                            if (index % 2 == 0) {
+//                                MaterialTheme.colors.background
+//                            } else {
+//                                MaterialTheme.colors.surface
+//                            }
+//                        )
                 ) {
                     DescriptionField(text = player.name, modifier = Modifier.fillMaxWidth())
                     if (!roundPlayers.isNullOrEmpty() && !roundPlayers[player.id].isNullOrEmpty()) {
                         for ((round_index, round) in roundPlayers[player.id]!!.iterator()
                             .withIndex()) {//!! call because of isNull check above
+                            Column(modifier =  Modifier.background(if (round_index %2 == 0){MaterialTheme.colors.background}else{MaterialTheme.colors.surface})){
                             roundDescriptionItem(
                                 text = if (index == 0) {
                                     "Cards ${
@@ -167,13 +196,24 @@ fun InGameScreen(
                                 text = round.points.toString(),
                             )
                         }
-
+                        }
                     }
+                    Column( modifier = Modifier
+                        .background(
+                            if (rounds.size % 2 == 0) {
+                                MaterialTheme.colors.background
+                            } else {
+                                MaterialTheme.colors.surface
+                            }
+                        )) {
+
+
                     DescriptionField(
                         text = player.points.toString(),//playerPoints[player.id].toString(),
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
-                }
+                }}
             }
         }
     }

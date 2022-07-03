@@ -16,21 +16,32 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repository: GameRepository): ViewModel() {
     private var _game = MutableStateFlow<Game>(Game())
     val game = _game.asStateFlow()
-    var isFirst :Boolean = false
+    private var _isFirst = MutableStateFlow<Boolean>(true)
+    val isFirst = _isFirst.asStateFlow()
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
+            repository.getAllGames().distinctUntilChanged().collect(){
+                if (it.isEmpty()) {
+                    _isFirst.value = true
+//                    repository.addGame(_game.value)
+                }
+                else {
+                    _isFirst.value = false
+                    _game.value = it.last()
+                }
+            }
 //            Log.d("DBCall", HomeViewModel::class.simpleName.toString() + "remove All Game")
 //           repository.removeAllGames()
 
-            val games = repository.getAllGames().first()
-                if (games.isEmpty()) {
-                    isFirst = true
-                    repository.addGame(_game.value)
-                }
-                else {
-                    _game.value = games.last()
-                }
+//            val games = repository.getAllGames().first()
+//            if (games.isEmpty()) {
+//                isFirst = true
+////                    repository.addGame(_game.value)
+//            }
+//            else {
+//                _game.value = games.last()
+//            }
 
 
         }
