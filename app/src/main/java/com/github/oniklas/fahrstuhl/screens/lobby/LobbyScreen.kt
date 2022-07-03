@@ -81,7 +81,7 @@ fun LobbyScreen(
             Button(
                 onClick = { newGame();player_list.forEach { onAddPlayer(it) }; navController.navigate(FahrstuhlScreens.InGameScreen.name) },
                 modifier = Modifier.padding(8.dp),
-                enabled = !player_list.isNullOrEmpty() || !players.isNullOrEmpty()
+                enabled = !player_list.isNullOrEmpty() && player_list.size >= 2 //|| !players.isNullOrEmpty()
             ) {
                 Text(text = "Start Game")
             }
