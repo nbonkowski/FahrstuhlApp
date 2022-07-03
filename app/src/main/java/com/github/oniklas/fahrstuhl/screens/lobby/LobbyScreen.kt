@@ -62,16 +62,14 @@ fun LobbyScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            NameInput(text = name, label = "Name", onImeAction = {add()}, onTextChange = {
+            NameInput(text = name, label = "Name", onImeAction = {if ( player_list.size <= 7) {add()}  }, onTextChange = {
                 if (it.all { char ->
                         char.isLetter() || char.isWhitespace()
                     }) name = it
             })
-
             Button(onClick = {
                 add()
-
-            }) {
+            }, enabled = player_list.size <= 7) {
                 Text(text = "Add")
             }
         }

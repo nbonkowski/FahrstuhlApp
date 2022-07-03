@@ -23,15 +23,15 @@ class HomeViewModel @Inject constructor(private val repository: GameRepository):
 //            Log.d("DBCall", HomeViewModel::class.simpleName.toString() + "remove All Game")
 //           repository.removeAllGames()
 
-            repository.getAllGames().distinctUntilChanged().collect {
-                if (it.isEmpty()) {
+            val games = repository.getAllGames().first()
+                if (games.isEmpty()) {
                     isFirst = true
                     repository.addGame(_game.value)
                 }
                 else {
-                    _game.value = it.last()
+                    _game.value = games.last()
                 }
-            }
+
 
         }
     }
