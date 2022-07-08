@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class WinViewModel @Inject constructor(private val repository: GameRepository): ViewModel() {
-    private var _game = MutableStateFlow<Game>(Game())
+    private var _game = MutableStateFlow(Game())
     val game = _game.asStateFlow()
 
     private var _playerList = MutableStateFlow<List<Player>>(emptyList())

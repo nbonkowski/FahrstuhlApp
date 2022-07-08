@@ -21,9 +21,7 @@ import com.github.oniklas.fahrstuhl.data.Player
 import com.github.oniklas.fahrstuhl.data.RoundPlayerCrossRef
 import com.github.oniklas.fahrstuhl.data.Round
 import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
-import com.github.oniklas.fahrstuhl.screens.ingame.widgets.DescriptionField
-import com.github.oniklas.fahrstuhl.screens.ingame.widgets.InputField
-import com.github.oniklas.fahrstuhl.screens.ingame.widgets.ItemDivider
+import com.github.oniklas.fahrstuhl.screens.ingame.widgets.*
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.math.abs
@@ -43,21 +41,12 @@ fun InGameScreen(
     endGame: () -> Unit,
 )
 {
-    @Composable
-    fun roundDescriptionItem(text: String) {
-        DescriptionField(
-        text =  text,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Transparent),
-        fontSize = 10.sp,
-        padding = 0.dp
-    )
-    }
     val extraRounds : Int = players.size
     Scaffold(
         content = {
+
     Surface(  Modifier.verticalScroll(rememberScrollState())) {
+
         LazyRow(Modifier.fillMaxWidth()) {
             stickyHeader {
                 Column(
@@ -67,7 +56,8 @@ fun InGameScreen(
                         .background(MaterialTheme.colors.surface)
                 ) {
                     DescriptionField(
-                        text = stringResource(R.string.name_description),
+                        text = getRandomColor().symbol,
+                        //text = stringResource(R.string.name_description),
                         modifier = Modifier.fillMaxWidth()
                     )
                     for (round in rounds) {
@@ -232,6 +222,18 @@ fun InGameScreen(
         }
         }
 
+    )
+}
+
+@Composable
+fun roundDescriptionItem(text: String) {
+    DescriptionField(
+        text =  text,
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent),
+        fontSize = 10.sp,
+        padding = 0.dp
     )
 }
 
