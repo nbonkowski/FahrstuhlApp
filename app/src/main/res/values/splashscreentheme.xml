@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.Fahrstuhl.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#606060</item>-->
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_fahrstuhl</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.Fahrstuhl</item>
     </style>
 </resources>
