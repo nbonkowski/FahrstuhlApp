@@ -13,8 +13,8 @@ private val DarkColorPalette = darkColors(
     primary = PrimaryLight,
     primaryVariant = PrimaryLight,
     secondary = Secondary,
-//    background = DarkGray2,
-   // surface= DarkGray1,
+    background = DarkGray2,
+    surface= DarkGray1,
     onSurface = Color.White,
 )
 

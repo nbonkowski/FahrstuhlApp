@@ -213,11 +213,11 @@ fun InGameScreen(
         floatingActionButton ={if (rounds.size < 12 + players.size) {
 
                 FloatingActionButton(onClick = { nextRound() }) {
-                    Text(modifier = Modifier.padding(10.dp), text = "Next Round")
+                    Text(modifier = Modifier.padding(10.dp), text = stringResource(R.string.next_round_text))
                 }
             } else{
             FloatingActionButton(onClick = { endGame();navController.navigate(FahrstuhlScreens.WinningScreen.name) }) {
-                Text(modifier = Modifier.padding(10.dp), text = "End")
+                Text(modifier = Modifier.padding(10.dp), text = stringResource(R.string.finish_text))
             }
         }
         }

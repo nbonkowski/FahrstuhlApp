@@ -1,20 +1,38 @@
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Fahrstuhl</string>
     <string name="rules">
-        Um Fahrstuhl zu spielen, werden ein Kartendeck und mindestens 2 Mitspieler benötigt.
+        To play Fahrstuhl(elevator), you need a deck of cards and at least 2 players.
         \n
-        \nJede Runde wird die angezeigte Anzahl Karten an jeden Spieler ausgeteilt.
-        \nWichtig Joker rausnehmen.
+        \nEach round, the number of cards displayed is dealt to each player.
+        \nIts important to remove the jokers.
         \n
-        \nJetzt schaut sich jeder seine Karten an und sagt, wie viele Stiche er diese runde haben wird. Dies wird im passenden "Prediktion" Feld notiert. Dann wird gespielt und die Stiche im "Stiche" / "Trick" Feld notiert.
+        \nNow everyone looks at their cards and says how many stitches they will have this round. This is noted in the appropriate "Prediction" field. Then play and the tricks are noted in the "Trick" field .
         \n
-        \nHat man die Stiche richtig hervor gesagt, bekommt man für jeden Stich 5 Punkte. Liegt man falsch, bekommt man für jeden falschen -2 Punkte.
+        \nIf you correctly predicted the tricks, you get 5 points for each trick. If you are wrong, you get -2 points for each wrong.
         \n
-        \nEine Besonderheit ist, sagt man 0 Stiche vor und hat 0 Stiche bekommt man trotzdem 5 Punkte.
+        \nA special feature is that if you say 0 stitches before and get 0 stitches, you still get 5 points.
     </string>
     <string name="name_description">Name:</string>
     <string name="prediction_description">Prediction</string>
-    <string name="trick_description">Stich</string>
-    <string name="points_description">Punkte</string>
-    <string name="back_to_menu">Zurück zum Menü</string>
+    <string name="trick_description">Trick</string>
+    <string name="points_description">Points</string>
+    <string name="back_to_menu">Back to Menu</string>
+    <string name="name_desc">Name</string>
+
+    <string name="new_game_desc">New Game</string>
+    <string name="resume_game_desc">Resume Game</string>
+    <string name="start_game_desc">Start Game</string>
+    <string name="next_round_text">Next Round</string>
+    <string name="finish_text">Results</string>
+
+
+    <string name="result_text">
+      <xliff:g name="name" example="Joe">%s</xliff:g>
+        is
+        <xliff:g name="place" example="1">%d</xliff:g>
+        with
+        <xliff:g name="points" example="50">%d</xliff:g>
+        Points.
+    </string>
+
 </resources>

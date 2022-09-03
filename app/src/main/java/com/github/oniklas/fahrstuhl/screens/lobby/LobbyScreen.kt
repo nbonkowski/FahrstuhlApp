@@ -12,9 +12,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 
 import androidx.navigation.NavHostController
+import com.github.oniklas.fahrstuhl.R
 import com.github.oniklas.fahrstuhl.data.Game
 import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
 
@@ -62,7 +64,7 @@ fun LobbyScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            NameInput(text = name, label = "Name", onImeAction = {if ( player_list.size <= 7) {add()}  }, onTextChange = {
+            NameInput(text = name, label = stringResource(R.string.name_desc), onImeAction = {if ( player_list.size <= 7) {add()}  }, onTextChange = {
                 if (it.all { char ->
                         char.isLetter() || char.isWhitespace()
                     }) name = it
@@ -83,7 +85,7 @@ fun LobbyScreen(
                 modifier = Modifier.padding(8.dp),
                 enabled = !player_list.isNullOrEmpty() && player_list.size >= 2 //|| !players.isNullOrEmpty()
             ) {
-                Text(text = "Start Game")
+                Text(text = stringResource(R.string.start_game_desc))
             }
         }
 
