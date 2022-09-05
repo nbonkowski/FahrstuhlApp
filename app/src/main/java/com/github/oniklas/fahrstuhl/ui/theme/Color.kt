@@ -27,6 +27,7 @@ val Aqua600 = Color(0xff00c0d2)
 val Aqua900 = Color(0xff00716f)
 
 val White = Color(0xffffffff)
+val Snow = Color(0xffFFFAFA)
 
 val DarkGray1 = Color(0xff121212)
 val DarkGray2 = Color(0xFF3c3c3c)
