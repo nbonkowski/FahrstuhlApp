@@ -81,7 +81,7 @@ fun HomeScreen(navController: NavHostController, toContinue : Boolean = false, f
 fun LanguageButton(locale_str : String, navController : NavHostController){
     val context = LocalContext.current
     val locale = Locale(locale_str)
-    Button(modifier = Modifier.padding(4.dp), onClick = {
+    Button(modifier = Modifier.padding(0.dp,4.dp), elevation = null, onClick = {
         Locale.setDefault(locale)
         val resources = context.getResources()
         val configuration = resources.getConfiguration()
