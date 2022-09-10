@@ -37,7 +37,6 @@ fun DescriptionField(
            .fillMaxWidth()
            .padding(padding))
 
-//        Divider(color = Color.Green, modifier = Modifier.fillMaxHeight().width(1.dp))
     }
    ItemDivider()
 
@@ -55,7 +54,6 @@ fun InputField(
 ){
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-//    Surface( modifier = modifier.border(BorderStroke(1.dp, color = Color.Gray), shape = RectangleShape)) {
 
     BasicTextField(value = text, onValueChange = onTextChange,
         textStyle = MaterialTheme.typography.body2.copy(
@@ -78,7 +76,6 @@ fun InputField(
     )
        ItemDivider()
 }
-//}
 
 @Composable
 fun ItemDivider(){

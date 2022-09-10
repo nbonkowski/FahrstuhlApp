@@ -52,14 +52,11 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
                 nextRound()
 
             }
-//            _playerList.value.forEach { player ->
-//                _roundPlayers.value[player.id] = roundRepository.getAllRoundsOfPlayer(player.id).first()
-//            }
+
         }
         // subscribe to Flow events
         viewModelScope.launch(Dispatchers.IO) {
             launch(Dispatchers.IO) {
-//                roundRepository.removeRounds()
                 gameRepository.getAllGames()
                     .distinctUntilChanged().collect {
                         _game.value = it.last()
@@ -95,21 +92,10 @@ class InGameViewModel @Inject constructor(private val gameRepository: GameReposi
                                     points = points))
                     }
 
-//                    calcPoints()
                 }
             }
         }
     }
-
-//        private fun calcPoints(){
-//            _playerList.value.forEach { player ->
-//                var points = 0
-//                _roundPlayers.value[player.id]!!.forEach{
-//                    points += it.points
-//                }
-//                _playerPoints.value[player.id] = points
-//            }
-//            }
 
 
     fun nextRound() = viewModelScope.launch{

@@ -199,7 +199,7 @@ fun InGameScreen(
 
 
                     DescriptionField(
-                        text = player.points.toString(),//playerPoints[player.id].toString(),
+                        text = player.points.toString(),
                         modifier = Modifier
                             .fillMaxWidth()
                     )
@@ -246,18 +246,3 @@ fun getPoints(prediction: Int, trick: Int): Int {
     return points
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun IngameScreenPreview(){
-//    InGameScreen(players =
-//    listOf(Players(name = "Maxim", game = UUID.randomUUID()),Players(name = "Maxim2", game = UUID.randomUUID())), rounds = listOf(
-//        Round(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID()),Round(game = UUID.randomUUID(), round = 1, firstPlayer = UUID.randomUUID())
-//    ), roundPlayers = listOf(listOf(RoundPlayerCrossRef(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),0,0)),
-//        listOf(RoundPlayerCrossRef(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1),RoundPlayerCrossRef(UUID.randomUUID(),UUID.randomUUID(),UUID.randomUUID(),1,1))),
-//        addRoundPlayer = {  rounds, players -> null
-//
-//        }){
-//
-//    }
-//
-//}

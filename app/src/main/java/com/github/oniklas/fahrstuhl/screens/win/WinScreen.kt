@@ -41,7 +41,6 @@ fun WinScreen(
                         .fillMaxWidth(), imageVector = Icons.Default.ThumbUp, contentDescription = "#1", tint = MaterialTheme.colors.onBackground)
                 }
                 itemsIndexed(playerList) { index, player: Player ->
-//                    Text(text = "${player.name} ist ${index + 1} mit ${player.points} Punkten", modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
                     Text(text = stringResource(R.string.result_text,player.name, index + 1, player.points), modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
                 }
                 item{
