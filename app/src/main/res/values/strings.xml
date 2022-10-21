@@ -34,5 +34,24 @@
         <xliff:g name="points" example="50">%d</xliff:g>
         Points.
     </string>
+    <string name="impressum">
+                            Service Provider\n
+                            \n
+                            Niklas Bonkowski\n
+                            Salzburger Weg 11\n
+                            50858 Köln\n
+                            Germany\n\n
+
+                            Conntact\n\n
+                            E-Mail-Adresse:\n
+                            lunarcodingorg+Contact@gmail.com\n
+                            Phone:\n
+                            +49
+                            \n
+                            Translated by Appcreator.\n
+                            Created with the free Privat Policy Generator by Dr. Thomas Schwenke \n
+                            Erstellt mit kostenlosem Datenschutz-Generator.de von Dr. Thomas Schwenke
+</string>
+
 
 </resources>

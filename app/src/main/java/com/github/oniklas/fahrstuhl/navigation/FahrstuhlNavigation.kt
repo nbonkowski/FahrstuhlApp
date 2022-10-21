@@ -7,8 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.oniklas.fahrstuhl.data.Game
+import com.github.oniklas.fahrstuhl.screens.datenschutzerklärung.DatenschutzerklaerungsScreen
 import com.github.oniklas.fahrstuhl.screens.home.HomeScreen
 import com.github.oniklas.fahrstuhl.screens.home.HomeViewModel
+import com.github.oniklas.fahrstuhl.screens.impressum.ImpressumScreen
 import com.github.oniklas.fahrstuhl.screens.ingame.InGameScreen
 import com.github.oniklas.fahrstuhl.screens.ingame.InGameViewModel
 import com.github.oniklas.fahrstuhl.screens.lobby.LobbyScreen
@@ -82,6 +84,13 @@ fun FahrstuhlNavigation(){
 
         composable(FahrstuhlScreens.TutorialScreen.name){
             TutorialScreen(navController)
+        }
+
+        composable(FahrstuhlScreens.ImpressumScreen.name){
+            ImpressumScreen(navController = navController)
+        }
+        composable(FahrstuhlScreens.DatenschutzerklaerungsScreen.name){
+            DatenschutzerklaerungsScreen(navController = navController)
         }
         
         composable(FahrstuhlScreens.WinningScreen.name){

@@ -1,5 +1,6 @@
 package com.github.oniklas.fahrstuhl.navigation
 
+import com.github.oniklas.fahrstuhl.screens.datenschutzerklärung.DatenschutzerklaerungsScreen
 import java.lang.IllegalArgumentException
 
 enum class FahrstuhlScreens {
@@ -7,6 +8,8 @@ enum class FahrstuhlScreens {
     TutorialScreen,
     LobbyScreen,
     InGameScreen,
+    ImpressumScreen,
+    DatenschutzerklaerungsScreen,
     WinningScreen;
 
     companion object{
@@ -16,6 +19,8 @@ enum class FahrstuhlScreens {
             LobbyScreen.name -> LobbyScreen
             InGameScreen.name -> InGameScreen
             WinningScreen.name -> WinningScreen
+            ImpressumScreen.name -> ImpressumScreen
+            DatenschutzerklaerungsScreen.name -> DatenschutzerklaerungsScreen
             null -> HomeScreen
             else -> throw IllegalArgumentException("Route $route is not valid")
         }

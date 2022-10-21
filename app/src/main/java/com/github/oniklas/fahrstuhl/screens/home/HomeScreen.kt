@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.github.oniklas.fahrstuhl.R
 import com.github.oniklas.fahrstuhl.navigation.FahrstuhlScreens
+import org.intellij.lang.annotations.JdkConstants
 import java.util.*
 
 @Composable
@@ -57,8 +58,8 @@ fun HomeScreen(navController: NavHostController, toContinue : Boolean = false, f
 
             Text(
                 stringResource(R.string.new_game_desc), modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp),
+                    .fillMaxWidth()
+                    .padding(5.dp),
                 textAlign = TextAlign.Center)
         }
 
@@ -69,9 +70,20 @@ fun HomeScreen(navController: NavHostController, toContinue : Boolean = false, f
         ) {
             Text(
                 stringResource(R.string.resume_game_desc), modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp),
+                    .fillMaxWidth()
+                    .padding(5.dp),
                 textAlign = TextAlign.Center)
+        }
+        Row(horizontalArrangement = Arrangement.End) {
+            TextButton(onClick = {navController.navigate(FahrstuhlScreens.DatenschutzerklaerungsScreen.name)}) {
+                Text(text = "Datenschutzerklärung");
+
+            }
+
+        TextButton(onClick = {navController.navigate(FahrstuhlScreens.ImpressumScreen.name)}) {
+            Text(text = "Impressum");
+            
+        }
         }
     }
 }
